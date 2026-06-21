@@ -55,7 +55,7 @@ save_file.addEventListener('click', () => {
     URL.revokeObjectURL(url);
 });
 
-upload_file.addEventListener('click', () => {
+load_file.addEventListener('click', () => {
     file_input.click();
 });
 
@@ -75,7 +75,7 @@ function runGoa(code, input) {
     const start_index = lines.indexOf('START');
     const end_index = lines.lastIndexOf('END');
 
-    if (start_index === - 1 || end_index === - 1 || start_index >= end_index) {
+    if (start_index === -1 || end_index === - 1 || start_index >= end_index) {
         throw new Error('Program must have one START and one END.')
     }
 
@@ -96,10 +96,41 @@ function getInsideParens(line) {
     const start = line.indexOf('(');
     const end = line.lastIndexOf(')');
     if (start === -1 || end === -1 || end <= start) {
-        throw new Error('Missing parantheses in: ' + line);
+        throw new Error('Missing parentheses in: ' + line);
     }
 
     return line.slice(start + 1, end).trim();
+}
+
+function split(text) {
+    const args = [];
+    let current = '';
+    let depth = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+
+        if (c === '(') {
+            depth++;
+            current += c;
+        } else if (c === ')') {
+            depth--;
+            current += c;
+        } else if (c === ' ' && depth === 0) {
+            if (current.trim().length > 0) {
+                args.push(current.trim());
+                current = '';
+            }
+        } else {
+            current += c;
+        }
+    }
+
+    if (current.trim().length > 0) {
+        args.push(current.trim());
+    }
+
+    return args;
 }
 
 function collect(lines, start_index) {
@@ -243,7 +274,7 @@ function evalExpression(expression, vars, input_queue) {
     if (function_match) {
         const func = function_match[1];
         const inside = function_match[2].trim();
-        const parts = inside.split(/\s+/);
+        const parts = split(inside);
         if (parts.length !== 2) {
             throw new Error('Math function must have two arguments: ' + expression);
         }
