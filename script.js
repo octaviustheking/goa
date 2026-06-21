@@ -1,12 +1,13 @@
 const code_area = document.querySelector('#code textarea');
 const input_area = document.querySelector('#input textarea');
-const output_area = document.querySelector('#output p');
+const output_area = document.querySelector('#output pre');
 const run_button = document.querySelector('#output button:nth-child(1)')
 const stop_button = document.querySelector('#output button:nth-child(2)')
 const save_browser = document.querySelector('#navbar nav a:nth-child(2)');
 const save_file = document.querySelector('#navbar nav a:nth-child(3)');
 const load_file = document.querySelector('#navbar nav a:nth-child(4)');
 const file_input = document.getElementById('file_input');
+const theme_switch = document.querySelector('#navbar nav a:nth-child(5)')
 
 let stopped = false;
 
@@ -68,6 +69,10 @@ file_input.addEventListener('change', () => {
         code_area.value = reader.result;
     };
     reader.readAsText(file);
+});
+
+theme_switch.addEventListener("click", () => {
+    document.body.classList.toggle("light");
 });
 
 function runGoa(code, input) {
@@ -162,8 +167,9 @@ function execute(lines, vars, input_queue, printFn) {
 
         if (line.startsWith('SET')) {
             const inside = getInsideParens(line);
-            const [name, ...rest] = inside.split(/\s+/);
-            const value_expression = rest.join(' ');
+            const parts = split(inside);
+            const name = parts[0];
+            const value_expression = parts[1];
             vars[name] = evalExpression(value_expression, vars, input_queue);
         } else if (line.startsWith('RETURN')) {
             const inside = getInsideParens(line);
@@ -176,6 +182,8 @@ function execute(lines, vars, input_queue, printFn) {
             const {block: ifBlock, nextIndex} = collect(lines, i + 1);
             i = nextIndex;
 
+            let handled = false;
+
             if (condition_value) {
                 execute(ifBlock, vars, input_queue, printFn);
                 while (i + 1 < lines.length && (lines[i + 1].startsWith('ELSE IF') || lines[i + 1] === 'ELSE')) {
@@ -183,8 +191,6 @@ function execute(lines, vars, input_queue, printFn) {
                     i = skipTo;
                 }
             } else {
-                let handled = false;
-
                 while (i + 1 < lines.length && lines[i + 1].startsWith('ELSE IF')) {
                     const else_if_line = lines[i + 1];
                     const cond = getInsideParens(else_if_line);
@@ -249,66 +255,123 @@ function evalCondition(text, vars, input_queue) {
     }
 }
 
-function evalExpression(expression, vars, input_queue) {
-    expression = expression.trim();
+function tokenize(expression) {
+    const tokens = [];
+    let current = "";
 
-    if (expression === 'INPUT') {
-        if (input_queue.length === 0) {
-            throw new Error('No more input available.');
-        }
-        return input_queue.shift();
-    }
+    for (let i = 0; i < expression.length; i++) {
+        const c = expression[i];
 
-    if (/^-?\d+$/.test(expression)) {
-        return Number(expression);
-    }
-
-    if (/^[a-zA-Z0-9]+$/.test(expression) && !expression.includes(" ")) {
-        if (!(expression in vars)) {
-            throw new Error('Undefined variable: ' + expression);
-        }
-        return vars[expression];
-    }
-
-    const function_match = expression.match(/^([A-Z]+)\s*\((.*)\)$/);
-    if (function_match) {
-        const func = function_match[1];
-        const inside = function_match[2].trim();
-        const parts = split(inside);
-        if (parts.length !== 2) {
-            throw new Error('Math function must have two arguments: ' + expression);
-        }
-        const left = evalExpression(parts[0], vars, input_queue);
-        const right = evalExpression(parts[1], vars, input_queue);
-
-        switch (func) {
-            case 'ADD': return Math.round(left + right);
-            case 'SUB': return Math.round(left - right);
-            case 'MULT': return Math.round(left * right);
-            case 'DIV': return Math.round(left / right);
-            case 'EXP': return Math.round(left ** right);
-            case 'BASE':
-                if (right < 2 || right > 36) {
-                    throw new Error("Base must be between 2 and 36");
-                }
-                return parseInt(left.toString(right));
-            case 'ABS': return Math.abs(left);
-            case 'MOD':
-                if (right === 0) throw new Error("MOD by zero");
-                return left % right;
-            case 'RAND':
-                const min = Math.min(left, right);
-                const max = Math.max(left, right);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            case 'MIN': return Math.min(left, right);
-            case 'MAX': return Math.max(left, right);
-            default:
-                throw new Error("Unknown function: " + func);
+        if (c === '(' || c === ')') {
+            if (current.trim().length > 0) {
+                tokens.push(current.trim());
+                current = "";
+            }
+            tokens.push(c);
+        } else if (c === ' ') {
+            if (current.trim().length > 0) {
+                tokens.push(current.trim());
+                current = "";
+            }
+        } else {
+            current += c;
         }
     }
 
-    throw new Error('Cannot parse expression: ' + expression)
+    if (current.trim().length > 0) {
+        tokens.push(current.trim());
+    }
+
+    return tokens;
 }
+
+function parseExpressionTokens(tokens) {
+    if (tokens.length === 0) {
+        throw new Error("Empty expression");
+    }
+
+    const token = tokens.shift();
+
+    if (/^-?\d+$/.test(token)) {
+        return { type: "number", value: Number(token) };
+    }
+
+    if (token === "INPUT") {
+        return { type: "input" };
+    }
+
+    if (/^[a-zA-Z][a-zA-Z0-9]*$/.test(token) && tokens[0] !== "(") {
+        return { type: "var", name: token };
+    }
+
+    if (/^[A-Z]+$/.test(token)) {
+        const func = token;
+
+        if (tokens.shift() !== "(") {
+            throw new Error("Expected '(' after " + func);
+        }
+
+        const left = parseExpressionTokens(tokens);
+        const right = parseExpressionTokens(tokens);
+
+        if (tokens.shift() !== ")") {
+            throw new Error("Expected ')' after arguments of " + func);
+        }
+
+        return { type: "func", func, left, right };
+    }
+
+    throw new Error("Unexpected token: " + token);
+}
+
+function evalExpression(expr, vars, input_queue) {
+    const tokens = tokenize(expr);
+    const ast = parseExpressionTokens(tokens);
+
+    if (tokens.length !== 0) {
+        throw new Error("Unexpected extra tokens");
+    }
+
+    return evalAST(ast, vars, input_queue);
+}
+
+function evalAST(node, vars, input_queue) {
+    switch (node.type) {
+        case "number":
+            return node.value;
+
+        case "input":
+            if (input_queue.length === 0) {
+                throw new Error("No more input available.");
+            }
+            return input_queue.shift();
+
+        case "var":
+            if (!(node.name in vars)) {
+                throw new Error("Undefined variable: " + node.name);
+            }
+            return vars[node.name];
+
+        case "func":
+            const left = evalAST(node.left, vars, input_queue);
+            const right = evalAST(node.right, vars, input_queue);
+
+            switch (node.func) {
+                case "ADD": return left + right;
+                case "SUB": return left - right;
+                case "MULT": return left * right;
+                case "DIV": return Math.round(left / right);
+                case "EXP": return left ** right;
+                case "MOD": return left % right;
+                case "MIN": return Math.min(left, right);
+                case "MAX": return Math.max(left, right);
+                case "BASE": return parseInt(left.toString(right));
+                default:
+                    throw new Error("Unknown function: " + node.func);
+            }
+    }
+}
+
 
 window.addEventListener('load', () => {
     const saved = localStorage.getItem('goa_code');
