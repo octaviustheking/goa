@@ -148,15 +148,18 @@ function collect(lines, start_index) {
         if (line.startsWith('IF') || line.startsWith('WHILE') || line.startsWith('REPEAT')) {
             depth++;
         }
-        if (line === 'END') {
-            if (depth === 0) return {block, nextIndex: i};
-            depth--; 
-        }
 
-        block.push(line);
+        if (line === 'END') {
+            if (depth === 0) {
+                return { block, nextIndex: i };
+            }
+            depth--;
+        } else {
+            block.push(line);
+        }
     }
 
-    throw new Error('Missing END for block')
+    throw new Error('Missing END for block');
 }
 
 function execute(lines, vars, input_queue, printFn) {
@@ -186,25 +189,22 @@ function execute(lines, vars, input_queue, printFn) {
 
             if (condition_value) {
                 execute(ifBlock, vars, input_queue, printFn);
-                while (i + 1 < lines.length && (lines[i + 1].startsWith('ELSE IF') || lines[i + 1] === 'ELSE')) {
-                    const {nextIndex: skipTo} = collect(lines, i + 2);
-                    i = skipTo;
+                handled = true;
+            }
+
+            while (i + 1 < lines.length && lines[i + 1].startsWith('ELSE IF')) {
+                const else_if_line = lines[i + 1];
+                const cond = getInsideParens(else_if_line);
+                const val = evalCondition(cond, vars, input_queue);
+
+                const {block: elseIfBlock, nextIndex: skipTo} = collect(lines, i + 2);
+
+                if (!handled && val) {
+                    execute(elseIfBlock, vars, input_queue, printFn);
+                    handled = true;
                 }
-            } else {
-                while (i + 1 < lines.length && lines[i + 1].startsWith('ELSE IF')) {
-                    const else_if_line = lines[i + 1];
-                    const cond = getInsideParens(else_if_line);
-                    const val = evalCondition(cond, vars, input_queue);
 
-                    const {block: elseIfBlock, nextIndex: skipTo} = collect(lines, i + 2);
-
-                    if (val && !handled) {
-                        execute(elseIfBlock, vars, input_queue, printFn);
-                        handled = true;
-                    }
-
-                    i = skipTo;
-                }
+                i = skipTo;
             }
 
             if (!handled && i + 1 < lines.length && lines[i + 1] === 'ELSE') {
@@ -212,6 +212,7 @@ function execute(lines, vars, input_queue, printFn) {
                 execute(elseBlock, vars, input_queue, printFn);
                 i = nextIndex;
             }
+
         } else if (line.startsWith('WHILE')) {
             const condition = getInsideParens(line);
 
@@ -234,6 +235,12 @@ function execute(lines, vars, input_queue, printFn) {
                 execute(repeatBlock, vars, input_queue, printFn)
             }
 
+            i = nextIndex;
+        } else if (line.startsWith('ELSE IF')) {
+            const { nextIndex } = collect(lines, i + 1);
+            i = nextIndex;
+        } else if (line === 'ELSE') {
+            const { nextIndex } = collect(lines, i + 1);
             i = nextIndex;
         }
     }
