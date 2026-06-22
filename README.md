@@ -13,7 +13,7 @@ Goa is open-source, and allows for easy changes to code for your needs.
 
 ## Important features
  - All functions have either 1 or 2 arguments inside parentheses, making it easy to understand and remember what functions do.
- - ```IF, ELSE IF, ELSE, WHILE, and REPEAT``` blocks all have ```END``` markers to make it clear where they end.
+ - ```IF, ELSE IF, ELSE, WHILE,``` and ```REPEAT``` blocks all have ```END``` markers to make it clear where they end.
  - Goa ignores whitespace and formatting like indentation.
  - Goa is safe and deterministic, as rules are strict to allow for no unpredictability.
  - Complete with browser saving and file downloading and uploading.

@@ -1,4 +1,6 @@
-body {
+/* ide */
+
+body.ide {
     background-color: rgb(46, 45, 45);
     color: white;
     font-family: "JetBrains Mono", monospace;
@@ -6,15 +8,15 @@ body {
     font-style: normal;
 }
 
-body.light {
+body.ide.light {
     background-color: rgb(209, 210, 210);
     color: black;
 }
 
-#navbar {
+body.ide #navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
     border-bottom: 1px solid black;
     color: white;
     font-family: "JetBrains Mono", monospace;
@@ -22,27 +24,33 @@ body.light {
     font-style: normal;
 }
 
-body.light #navbar{
+body.ide.light #navbar {
     border-bottom: 1px solid white;
     color: black;
 }
 
-#navbar h1 {
+body.ide #navbar h1 {
     padding-left: 30px;
 }
 
-#navbar nav {
+body.ide #navbar nav {
     display: flex;
     gap: 20px;
     padding-right: 10px;
 }
 
-#navbar a {
+body.ide #navbar a {
     position: relative;
     cursor: pointer;
+    text-decoration: none;
+    color: white;
 }
 
-#navbar a::before {
+body.ide.light #navbar a {
+    color: black;
+}
+
+body.ide #navbar a::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -56,34 +64,34 @@ body.light #navbar{
     transition: transform .3s ease-in-out;
 }
 
-body.light #navbar a::before {
+body.ide.light #navbar a::before {
     background-color: black;
 }
 
-#navbar a:hover::before {
-  transform-origin: left;
-  transform: scaleX(1);
+body.ide #navbar a:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
 }
 
-#holder {
+body.ide #holder {
     display: flex;
 }
 
-.half {
+body.ide .half {
     padding-left: 5px;
     width: 50%;
-    min-height: 98dvh; 
+    min-height: 98dvh;
 }
 
-#code {
+body.ide #code {
     border-right: 1px solid black;
 }
 
-body.light #code {
+body.ide.light #code {
     border-right: 1px solid white;
 }
 
-#code textarea{
+body.ide #code textarea {
     margin-left: 25px;
     padding: 5px;
     resize: none;
@@ -98,26 +106,26 @@ body.light #code {
     font-style: normal;
 }
 
-body.light #code textarea {
+body.ide.light #code textarea {
     background-color: rgb(209, 210, 210);
     color: black;
 }
 
-#right {
+body.ide #right {
     display: flex;
     flex-direction: column;
 }
 
-.quarter {
+body.ide .quarter {
     width: 100%;
     height: 50%;
 }
 
-.title {
+body.ide .title {
     padding-left: 25px;
 }
 
-#input textarea {
+body.ide #input textarea {
     padding: 5px;
     margin-left: 25px;
     width: 80%;
@@ -132,24 +140,24 @@ body.light #code textarea {
     font-style: normal;
 }
 
-body.light #input textarea {
+body.ide.light #input textarea {
     background-color: rgb(209, 210, 210);
     color: black;
 }
 
-#output {
+body.ide #output {
     border-top: 1px solid black;
 }
 
-body.light #output {
+body.ide.light #output {
     border-top: 1px solid white;
 }
 
-#button-holder {
+body.ide #button-holder {
     display: flex;
 }
 
-#output button {
+body.ide #output button {
     margin-left: 25px;
     margin-top: 25px;
     font-family: "JetBrains Mono", monospace;
@@ -160,23 +168,167 @@ body.light #output {
     color: white;
 }
 
-#output button {
-    margin-left: 25px;
-    margin-top: 25px;
-    font-family: "JetBrains Mono", monospace;
-    font-optical-sizing: auto;
-    font-style: normal;
-    border: 1px solid white;
-    background-color: rgb(46, 45, 45);
-    color: white;
-}
-
-body.light #output button {
+body.ide.light #output button {
     border: 1px solid black;
     background-color: rgb(209, 210, 210);
     color: black;
 }
 
-#output pre {
+body.ide #output pre {
     padding-left: 30px;
+}
+
+/* documentation */
+
+body.doc {
+    background-color: rgb(46, 45, 45);
+    color: white;
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-style: normal;
+    display: flex;
+    margin: 0;
+}
+
+body.doc.light {
+    background-color: rgb(209, 210, 210);
+    color: black;
+}
+
+body.doc #navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: inherit;
+    padding: 10px 0;
+    z-index: 10;
+}
+
+body.doc.light #navbar {
+    border-bottom: 1px solid white;
+    color: black;
+}
+
+body.doc #navbar h1 {
+    padding-left: 30px;
+}
+
+body.doc #navbar nav {
+    display: flex;
+    gap: 20px;
+    padding-right: 10px;
+}
+
+body.doc #navbar a {
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    color: white;
+}
+
+body.doc.light #navbar a {
+    color: black;
+}
+
+body.doc #navbar a::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    border-radius: 4px;
+    background-color: white;
+    bottom: 0;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .3s ease-in-out;
+}
+
+body.doc.light #navbar a::before {
+    background-color: black;
+}
+
+body.doc #navbar a:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+body.doc .sidebar {
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 160px);
+    width: 220px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid black;
+}
+
+body.doc.light .sidebar {
+    border-right: 1px solid white;
+}
+
+body.doc .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+body.doc .sidebar a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    position: relative;
+}
+
+body.doc.light .sidebar a {
+    color: black;
+}
+
+body.doc .sidebar a:hover {
+    opacity: 0.7;
+}
+
+body.doc .content {
+    padding: 100px 40px 40px 40px;
+    box-sizing: border-box;
+}
+
+body.doc.light .content {
+    color: black;
+}
+
+body.doc .title {
+    scroll-margin-top: 125px;
+}
+
+body.doc img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    max-width: 75%; 
+    height: auto;
+}
+
+body.doc.light img {
+    border: 1px solid white;
+}
+
+body.doc .subtitle {
+    text-align: center;
+    font-size: 12px;
+}
+
+body.doc .content a {
+    color: white;
+}
+
+body.doc.light .content a {
+    color: black;
 }

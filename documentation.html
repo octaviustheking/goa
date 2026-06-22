@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goa Documentation</title>
+
+    <link rel="icon" type="png" href="assets/Goa.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+</head>
+<body class="doc">
+    <header id="navbar">
+        <h1>Goa Documentation</h1>
+        
+        <nav>
+            <a href="index.html">IDE</a>
+            <a>Change theme</a>
+        </nav>
+    </header>
+
+    <div class="sidebar">
+        <nav>
+            <a href="#intro">Introduction</a>
+            <a href="#start">IDE Quick Start</a>
+            <a href="#syntax">Syntax</a>
+            <a href="#statements">Statements</a>
+            <a href="#errors">Errors</a>
+            <a href="#examples">Example Code</a>
+        </nav>
+    </div>
+
+    <div class="content">
+        <h1 id="intro" class="title">Introduction</h1>
+        <p>Welcome to <strong>Goa</strong>!</p>
+        <p>Goa is a small expression-based programming language, designed to be lightweight and easy for people to understand and learn. It uses a clean, parentheses-driven syntax inspired by languages like Lisp. It deals exclusively with numbers, allowing for people to experiment with logic and automate tasks that deal with integers. </p>
+        <p>Goa is designed to be</p>
+        <ul>
+            <li>easily understandable</li>
+            <li>expandable</li>
+            <li>and customizable</li>
+        </ul>
+        <p>Goa is open source, allowing for users to change the code to suit their needs.</p>
+        <p>Some important features of Goa...</p>
+        <ul>
+            <li>All functions have either 1 or 2 arguments inside parentheses, making it easy to understand and remember what functions do.</li>
+            <li><code>IF, ELSE IF, ELSE, WHILE,</code> and <code>REPEAT</code> blocks all have <code>END</code> statements to make it easy to see where they end.</li>
+            <li>Goa ignores whitespace and formatting like indentation.</li>
+            <li>Goa is safe and deterministic, as rules are strict to allow for no unpredictability.</li>
+            <li>The IDE is complete with browser saving and file downloading and uploading.</li>
+        </ul>
+        
+        <h1 id="start" class="title">Getting Started with the IDE</h1>
+        <p>So, you want to use Goa. What's first?</p>
+        <p>First, click the IDE tab in the top right of the navbar. You should see something like the image below:</p>
+        <img src="assets/ide_screenie.png" alt="IDE screenshot">
+        <p class="subtitle">A screenshot of the Goa Web IDE.</p>
+        <p>You will notice that there are 4 main sections.</p>
+        <ul>
+            <li><a href="#navdocs">The Navbar</a></li>
+            <li><a href="#codedocs">The Code</a></li>
+            <li><a href="#inputdocs">The Input</a></li>
+            <li><a href="#outputdocs">The Output</a></li>
+        </ul>
+
+        <h2 id="navdocs" class="title">The Navbar</h2>
+        <p>The Navbar contains 5 buttons.</p>
+        <p>The first one, Documentation, opens up this website. This is for you to refer to in case you ever forget anything about Goa.</p>
+        <p>Next is the Save in browser button. It saves whatever code you currently have in the code area to localstorage, allowing it to load up whenever you open the web IDE></p>
+        <p>Thirdly is the Save to file button. It saves whatever code you currently have in the code area to a <code>.goa</code> file on your computer.</p>
+        <p>Fourth is the Upload file button. It allows you to upload code from a <code>.goa</code> file on your computer.</p>
+        <p>Finally, there is the Change theme button. It allows you to change the theme of the web IDE between light and dark mode.</p>
+        <img src="assets/light_screenie.png" alt="Light mode screenshot">
+        <p class="subtitle">A screenshot of the Goa Web IDE in light mode.</p>
+
+        <h2 id="codedocs" class="title">The Code</h2>
+        <p>Located on the left half of the screen, this is where you place your code!</p>
+        <p>Every program must have a <code>START</code> and an <code>END</code> statements. Without them, your program will not compile. For example, if you have the following program:</p>
+        <pre>
+            <code>
+                START 
+                RETURN (4)
+            </code>
+        </pre>
+        <p>You will recieve the following error message: <code>ERROR: Program must have one START and one END.</code></p>
+        <p>Make sure to save your code often! The Goa Web IDE currently does not support auto-saving.</p>
+
+        <h2 id="inputdocs" class="title">The Input</h2>
+        <p>Located in the top of the right half of the screen, this is where you place your input!</p>
+        <p>Goa only deals with integers, so all inputs should be numbers. Numbers should be separated by spaces, but other than that, it doesn't matter. Goa will take</p>
+        <pre>
+            <code>
+                1 4
+            </code>
+        </pre>
+        <p>the same as</p>
+        <pre>
+            <code>
+                1
+                4
+            </code>
+        </pre>
+        <p>or</p>
+        <pre>
+            <code>
+                1
+                
+
+
+                4
+            </code>
+        </pre>
+        <p>As long as the numbers are separated!</p>
+        <p>You can take input by running the <code>INPUT</code> statement. The <code>INPUT</code> statement must be used with another statement, like the <code>SET</code> statement to assign it to a variable, or the <code>RETURN</code> statement to print it out, just to name a few. Each <code>INPUT</code> will take the next number in your input. Goa will not return an error if there are more inputs than you pull for in your code, but it will return <code>ERROR: No more input available.</code> if the number of inputs available are less than the number that you pull for.</p>
+        <p>You can learn more by going to <a href="#inputcode"><code>INPUT</code></a> section!</p>
+        
+        <h2 id="inputdocs" class="title">The Output</h2>
+        <p>Located in the bottom of the right half of the screen, this is where the program returns output and errors!</p>
+        <p>In order to make the program print something out in the output, you must use the <code>RETURN</code> statement. You can learn more by going to the <a href="#returncode"><code>RETURN</code></a> section!</p>
+    
+        <h1 id="syntax" class="title">Syntax</h1>
+        <p>The syntax of Goa can be divided into several sections.</p>
+        <ul>
+            <li><a href="#programstructure">Program Structure</a></li>
+            <li><a href="#statesyn">Statement Syntax</a></li>
+            <li><a href="#comsyn">Comment Syntax</a></li>
+        </ul>
+
+        <h2 id="programstructure" class="title">Program Structure</h2>
+        <p>Every program in Goa must have a START and END statement.</p> 
+        <p>If you do not, you will recieve the following error message: <code>ERROR: Program must have one START and one END.</code></p>
+
+        <h2 id="statesyn" class="title">Statement Syntax</h2>
+        <p>All statements in Goa follow this syntax: </p>
+        <code>STATEMENT (argument argument)</code>
+        <p>Depending on what statement you are using, you may have to use 1 or 2 arguments. It does not matter if you place a space between the statement and the parentheses. For example, </p>
+        <code>ADD (1 2)</code>
+        <p>is the same as</p>
+        <code>ADD(1 2)</code>
+        <p>or even</p>
+        <code>ADD     (1 2)</code>
+        <p>As well as that, it doesn't matter how many spaces are between the arguments (if 2 arguments are required) as long as there is a space between them.</p>
+        <p>However, it is important to note that parentheses are always needed. If you do not place a parentheses in the correct spot, you will get an error. For example, in the program below: </p>
+        <pre>
+            <code>
+                START # note the start and end statements
+                RETURN (3
+                END
+            </code>
+        </pre>
+        <p>The user has failed to add an extra parenthese needed, causing an error message to return.</p>
+        <code>ERROR: Missing parentheses in: RETURN (3</code>
+        <p>Adding too many parentheses will also return an error message</p>
+        <pre>
+            <code>
+                START
+                RETURN (3))
+                END
+            </code>
+        </pre>
+        <p>And will return this error message: </p>
+        <code>ERROR: Unexpected extra tokens</code>
+        <p>As well as that, nested statements are allowed. For example, </p>
+        <code>RETURN (ADD (2 MULT (2 3)))</code>
+        <p>will return 2 + (2 x 3), which is 8.</p>
+
+        <h2 id="comsyn" class="title">Comment Syntax</h2>
+        <p>To make a comment in your code, simply use a <code>#</code> symbol. For exmaple, typing <code># hello world</code> will cause the compiler to skip over it. Inline comments are also allowed, allowing you to type things like: </p>
+        <code>RETURN (ADD (INPUT 2)) # this allows you to print out the sum of the input and 2.</code> 
+        <p>All on the same line.</p>
+
+        <h1 id="statements" class="title">Statements</h1>
+        <p>In Goa, only integers are used. That means that there is no support for strings or floats.</p>
+        <p>Here is a list of all statements in Goa.</p>
+        <ul>
+            <li><a href="#startendcode">START and END</a></li>
+            <li><a href="#setcode">SET</a></li>
+            <li><a href="#mathcode">Math Statements</a></li>
+            <ul>
+                <li><a href="#addcode">ADD</a></li>
+                <li><a href="#subcode">SUB</a></li>
+                <li><a href="#multcode">MULT</a></li>
+                <li><a href="#divcode">DIV</a></li>
+                <li><a href="#expcode">EXP</a></li>
+                <li><a href="#basecod">BASE</a></li>
+                <li><a href="#abscode">ABS</a></li>
+                <li><a href="#modcode">MOD</a></li>
+                <li><a href="#randcode">RAND</a></li>
+                <li><a href="#mincode">MIN</a></li>
+                <li><a href="#maxcode">MAX</a></li>
+            </ul>
+            <li><a href="#inputcode">INPUT</a></li>
+            <li><a href="#returncode">RETURN</a></li>
+            <li><a href="#logiccode">Logic Statements</a></li>
+            <ul>
+                <li><a href="#compcode">Comparators</a></li>
+                <li><a href="#repeatcode">REPEAT</a></li>
+                <li><a href="#ifcode">IF</a></li>
+                <li><a href="#whilecode">WHILE</a></li>
+            </ul>
+        </ul>
+
+        <h2 id="startendcode" class="title">START and END</h2>
+        <p>To mark the start of a program, use the <code>START</code> statement.</p>
+        <p>To mark the end of a program, use the <code>END</code> statement.</p>
+        <p>Every program needs these two statements. Otherwise, you will recieve the following error: <code>ERROR: Program must have one START and one END.</code></p>
+        <p>If there is no <code>START</code> or <code>END</code>, there will be an error.</p>
+        <p>If there are multiple <code>START</code> and <code>END</code> (excpet for Logic Statements) statements, there will be an error. </p>
+
+        <h2 id="setcode" class="title">SET</h2>
+        <p>To set a variable to a value, use the following statement</p>
+        <code>SET (variable argument)</code>
+        <p>Where the variable is the name of the variable and argument is the value.</p>
+        <p>For example, to set a variable x to 10, run</p>
+        <code>SET (x 10)</code>
+
+        <h2 id="mathcode" class="title">Math Statements</h2>
+        <p>Math functions on their own do not do anything. They just run, but will not return anything or be assigned to a variable. Use the correct statements for that (<a href="#setcode">SET</a> and <a href="#returncode">RETURN</a>).</p>
+        <p>All math functions round to the nearest whole number.</p>
+
+        <h3 id="addcode" class="title">ADD</h3>
+        <p>To add two numbers, use the following statement</p>
+        <code>ADD (argument argument)</code>
+        <p>The <code>ADD</code> statement ONLY supports 2 values. Otherwise, you will get an error. To add multiple numbers, run</p>
+        <p>ADD (argument ADD (argument argument))</p>
+        <p>to add 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to add 2 and 5, run</p>
+        <code>ADD (2 5)</code>
+        <p>To add 2 5 and 7, run</p>
+        <code>ADD (2 ADD (5 7))</code>
+
+        <h3 id="subcode" class="title">SUB</h3>
+        <p>To subtract two numbers, use the following statement</p>
+        <code>SUB (argument argument)</code>
+        <p>Where the second argument is subtracted from the first.</p>
+        <p>The <code>SUB</code> statement ONLY supports 2 values. Otherwise, you will get an error. To subtract multiple numbers, run</p>
+        <code>SUB (SUB (argument argument) argument)</code>
+        <p>to subtract 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to do 5 - 2, run</p>
+        <code>SUB (5 2)</code>
+        <p>To do 7 - 5 - 2, run</p>
+        <code>SUB (SUB (7 5) 2)</code>
+
+        <h3 id="multcode" class="title">MULT</h3>
+        <p>To multiply two numbers, use the following statement</p>
+        <code>MULT (argument argument)</code>
+        <p>The <code>MULT</code> statement ONLY supports 2 values. Otherwise, you will get an error. To multiply multiple numbers, run</p>
+        <p>MULT (argument MULT (argument argument))</p>
+        <p>to multiply 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to multiply 2 and 5, run</p>
+        <code>MULT (2 5)</code>
+        <p>To multiply 2 5 and 7, run</p>
+        <code>MULT (2 MULT (5 7))</code>
+
+        <h3 id="divcode" class="title">DIV</h3>
+        <p>To divide two numbers, use the following statement</p>
+        <code>DIV (argument argument)</code>
+        <p>Where the first argument is divided by the second.</p>
+        <p>The <code>DIV</code> statement ONLY supports 2 values. Otherwise, you will get an error. To divide multiple numbers, run</p>
+        <code>DIV (argument DIV (argument argument))</code>
+        <p>to subtract 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to do 8 divided by 4, run</p>
+        <code>DIV (8 4)</code>
+        <p>To do 8 divided by 2 divided by 4, run</p>
+        <code>DIV (DIV (8 2) 4)</code>
+
+        <h3 id="expcode" class="title">EXP</h3>
+        <p>To do exponentials, use the following statement</p>
+        <code>EXP (argument argument)</code>
+        <p>Where the first argument is raised to the power of the second argument..</p>
+        <p>The <code>EXP</code> statement ONLY supports 2 values. Otherwise, you will get an error. To exponent a number multiple times, run</p>
+        <code>EXP (EXP (argument argument) argument)</code>
+        <p>to exponent a number 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to do 5 squared, run</p>
+        <code>EXP (5 2)</code>
+        <p>To do 5 squared cubed, run</p>
+        <code>EXP (EXP (5 2) 3)</code>
+
+        <h3 id="basecode" class="title">BASE</h3>
+        <p>To convert numbers between bases, use the following statement</p>
+        <code>BASE (argument argument)</code>
+        <p>Where the first argument is converted to the base of the second.</p>
+        <p>The <code>BASE</code> statement ONLY supports 2 values. Otherwise, you will get an error. To convert a number's base multiple times, run</p>
+        <code>BASE (BASE (argument argument) argument)</code>
+        <p>to change a number's base 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to conver 5 to base 2, run</p>
+        <code>BASE (5 2)</code>
+        <p>To conver 5 in binary to base 3, run</p>
+        <code>BASE (BASE (5 2) 3)</code>
+
+        <h3 id="abscode" class="title">ABS</h3>
+        <p>To find the absolute value of a number, use the following statement</p>
+        <code>ABS (argument)</code>
+        <p>Where the absolute value of the argument is given.</p>
+        <p>The <code>ABS</code> only needs 1 argument. If more are given, they will be ignored. </p>
+        <p>For example, to find |-16|, run</p>
+        <code>ABS (-16)</code>
+
+        <h3 id="modcode" class="title">MOD</h3>
+        <p>To do modular division, use the following statement</p>
+        <code>MOD (4 2)</code>
+        <p>Where the remainder of the 4 divided by 2 is given.</p>
+        <p>The <code>MOD</code> statement ONLY supports 2 values. Otherwise, you will get an error. To modularly divide multiple numbers, run</p>
+        <code>MOD (MOD (argument argument) argument)</code>
+        <p>to modularly divide a number 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need.</p>
+        <p>For example, to do 5 mod 2, run</p>
+        <code>MOD (5 2)</code>
+        <p>To do 15 mod 6 mod 2, run</p>
+        <code>MOD (MOD (15 6) 2)</code>
+
+        <h3 id="randcode" class="title">RAND</h3>
+        <p>To find a random number (inclusive), run the following statement</p>
+        <code>RAND (argument argument)</code>
+        <p>Where a random number is generated inclusive between the minimum value (the first argument) and the maximum (the second argument).</p>
+        <p>The <code>SUB</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to generate a random number between 1 and 10 (inclusive), run</p>
+        <code>RAND (1 10)</code>
+
+        <h3 id="mincode" class="title">MIN</h3>
+        <p>To find the smaller of 2 numbers, use the following statement</p>
+        <code>MIN (argument argument)</code>
+        <p>Where the smaller argument is given.</p>
+        <p>The <code>MIN</code> statement ONLY supports 2 values. Otherwise, you will get an error. </p>
+        <p>For example, to find the smaller of 2 and 14, run</p>
+        <code>MIN (2 14)</code>
+
+        <h3 id="maxcode" class="title">MAX</h3>
+        <p>To find the larger of 2 numbers, use the following statement</p>
+        <code>MAX (argument argument)</code>
+        <p>Where the larger argument is given.</p>
+        <p>The <code>MAX</code> statement ONLY supports 2 values. Otherwise, you will get an error. </p>
+        <p>For example, to find the larger of 2 and 14, run</p>
+        <code>MAX (2 14)</code>
+
+        <h2 id="inputcode" class="title">INPUT</h2>
+        <p>To take the next number in input, use the following statement</p>
+        <code>INPUT</code>
+        <p>However, by itself, it does nothing. You must put it inside another statement, like a <code>SET</code>, Math statement, <code>RETURN</code>, etc.</p>
+        <p><code>INPUT</code> will return an error if there are no more numbers in the input area.</p>
+        <p>For example, to add 2 to the number in input, run</p>
+        <code>ADD (2 INPUT)</code>
+
+        <h2 id="returncode" class="title">RETURN</h2>
+        <p>To print something out in the output area, use the following statement</p>
+        <code>RETURN (argument)</code>
+        <p>Where the argument is printed out in the output area.</p>
+        <p>The <code>RETURN</code> statement only supports 1 value. It will ignore any extra values.</p>
+        <p>For example, to print out the number 15, run</p>
+        <code>RETURN (15)</code>
+
+        <h2 id="logiccode" class="title">Logic Statements</h2>
+        <p>All logic statements in Goa use an <code>END</code> statement to mark where they end.</p>
+
+        <h3 id="compcode" class="title">Comparators</h3>
+        <p>There are 4 comparators in Goa.</p>
+        <ul>
+            <li><code><</code> - Use this comparator for "less than"</li>
+            <li><code>></code> - Use this comparator for "greater than"</li>
+            <li><code>=</code> - Use this comparator for "equal to"</li>
+            <li><code>!=</code> - Use this comparator for "not equal to"</li>
+        </ul>
+        <p>Use these in the logic statements below.</p>
+
+        <h3 id="repeatcode" class="title">REPEAT</h3>
+        <p><code>REPEAT</code> statements in Goa are for loops. They repeat a block of code for a set amount of times. To use them, follow the format below:</p>
+        <pre>
+            <code>
+                REPEAT (argument)
+                # code
+                END 
+            </code>
+        </pre>
+        <p>Where the argument tells you how many times to repeat it. The <code>END</code> statement is important because it marks where the code block ends. Without it, you will get an error message.</p>
+        <p>For example, if you wanted to print out the number 10 5 times, you would run:</p>
+        <pre>
+            <code>
+                REPEAT (5)
+                RETURN (10)
+                END
+            </code>
+        </pre>
+
+        <h3 id="ifcode" class="title">IF</h3>
+        <p><code>IF</code> statements in Goa also include the <code>ELSE IF</code> and <code>ELSE</code> blocks. They allow you to check if a condition is true. </p>
+        <p>The basic format of <code>IF</code> blocks is shown below.</p>
+        <pre>
+            <code>
+                IF (statement)
+                # code
+                END 
+
+                ELSE IF (statement) # you can add as many as you want - they are optional
+                # code
+                END # notice how every block has an END statement
+
+                ELSE # no statement, they are optional, but only add one
+                # code
+                END
+            </code>
+        </pre>
+
+        <p>Statements are created with comparators. An example of a statement with a comparator is <code>(x > 10)</code>. So if this was true, it would activate that code block and skip all blocks below it. </p>
+        <p><code>ELSE IF</code> and <code>ELSE</code> blocks are optional. You can add as many <code>ELSE IF</code> blocks as you want but only 1 <code>ELSE</code> block. Notice how each block has an <code>END</code> tag.</p>
+
+        <h3 id="whilecode" class="title">WHILE</h3>
+        <p><code>WHILE</code> statements repeat a block of code until a condition is satisfied. Make sure that the condition can be satisfied so it doesn't run forever.</p>
+        <p>The basic format of <code>WHILE</code> statements is shown below.</p>
+        <pre>
+            <code>
+                WHILE (statement)
+                # code
+                END
+            </code>
+        </pre>
+        <p>The statement is created with comparators. An example of a statement with a comparator is <code>(x < 10)</code>. So in a <code>WHILE</code> block, while x is less than 10, the code will run.</p>
+        <p>For example, you can use it to return numbers in increasing order.</p>
+        <pre>
+            <code>
+                SET (x 0)
+                WHILE (x < 10)
+                SET (x ADD (x 1))
+                RETURN (x)
+                END
+            </code>
+        </pre>
+
+        <h1 id="errors" class="title">Errors</h1>
+        <p>in development!</p>
+
+        <h1 id="examples" class="title">Examples</h1>
+        <p>in development!</p>
+    </div>
+
+    <script src = "script.js"></script>
+</body>
+</html>
