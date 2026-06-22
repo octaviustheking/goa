@@ -17,7 +17,7 @@
         
         <nav>
             <a href="index.html">IDE</a>
-            <a>Change theme</a>
+            <a id="themechange">Change theme</a>
         </nav>
     </header>
 
@@ -34,7 +34,7 @@
 
     <div class="content">
         <h1 id="intro" class="title">Introduction</h1>
-        <p>Welcome to <strong>Goa</strong>!</p>
+        <p>Welcome to <strong>Goa 0.8 Beta</strong>!</p>
         <p>Goa is a small expression-based programming language, designed to be lightweight and easy for people to understand and learn. It uses a clean, parentheses-driven syntax inspired by languages like Lisp. It deals exclusively with numbers, allowing for people to experiment with logic and automate tasks that deal with integers. </p>
         <p>Goa is designed to be</p>
         <ul>
@@ -51,6 +51,7 @@
             <li>Goa is safe and deterministic, as rules are strict to allow for no unpredictability.</li>
             <li>The IDE is complete with browser saving and file downloading and uploading.</li>
         </ul>
+        <p>Goa 0.8 Beta means that Goa is getting close to a full release! In 0.8, the developer fixes some bugs involving parsing the code. Before the 1.0 full release, he plans to add more comparators and statements. </p>
         
         <h1 id="start" class="title">Getting Started with the IDE</h1>
         <p>So, you want to use Goa. What's first?</p>
@@ -79,10 +80,10 @@
         <p>Located on the left half of the screen, this is where you place your code!</p>
         <p>Every program must have a <code>START</code> and an <code>END</code> statements. Without them, your program will not compile. For example, if you have the following program:</p>
         <pre>
-            <code>
-                START 
-                RETURN (4)
-            </code>
+<code>
+START 
+RETURN (4)
+</code>
         </pre>
         <p>You will recieve the following error message: <code>ERROR: Program must have one START and one END.</code></p>
         <p>Make sure to save your code often! The Goa Web IDE currently does not support auto-saving.</p>
@@ -91,26 +92,26 @@
         <p>Located in the top of the right half of the screen, this is where you place your input!</p>
         <p>Goa only deals with integers, so all inputs should be numbers. Numbers should be separated by spaces, but other than that, it doesn't matter. Goa will take</p>
         <pre>
-            <code>
-                1 4
-            </code>
+<code>
+1 4
+</code>
         </pre>
         <p>the same as</p>
         <pre>
-            <code>
-                1
-                4
-            </code>
+<code>
+1
+4
+</code>
         </pre>
         <p>or</p>
         <pre>
-            <code>
-                1
-                
+<code>
+1
 
 
-                4
-            </code>
+
+4
+</code>
         </pre>
         <p>As long as the numbers are separated!</p>
         <p>You can take input by running the <code>INPUT</code> statement. The <code>INPUT</code> statement must be used with another statement, like the <code>SET</code> statement to assign it to a variable, or the <code>RETURN</code> statement to print it out, just to name a few. Each <code>INPUT</code> will take the next number in your input. Goa will not return an error if there are more inputs than you pull for in your code, but it will return <code>ERROR: No more input available.</code> if the number of inputs available are less than the number that you pull for.</p>
@@ -144,21 +145,21 @@
         <p>As well as that, it doesn't matter how many spaces are between the arguments (if 2 arguments are required) as long as there is a space between them.</p>
         <p>However, it is important to note that parentheses are always needed. If you do not place a parentheses in the correct spot, you will get an error. For example, in the program below: </p>
         <pre>
-            <code>
-                START # note the start and end statements
-                RETURN (3
-                END
-            </code>
+<code>
+START # note the start and end statements
+RETURN (3
+END
+</code>
         </pre>
         <p>The user has failed to add an extra parenthese needed, causing an error message to return.</p>
         <code>ERROR: Missing parentheses in: RETURN (3</code>
         <p>Adding too many parentheses will also return an error message</p>
         <pre>
-            <code>
-                START
-                RETURN (3))
-                END
-            </code>
+<code>
+START
+RETURN (3))
+END
+</code>
         </pre>
         <p>And will return this error message: </p>
         <code>ERROR: Unexpected extra tokens</code>
@@ -366,39 +367,39 @@
         <h3 id="repeatcode" class="title">REPEAT</h3>
         <p><code>REPEAT</code> statements in Goa are for loops. They repeat a block of code for a set amount of times. To use them, follow the format below:</p>
         <pre>
-            <code>
-                REPEAT (argument)
-                # code
-                END 
-            </code>
+<code>
+REPEAT (argument)
+# code
+END 
+</code>
         </pre>
         <p>Where the argument tells you how many times to repeat it. The <code>END</code> statement is important because it marks where the code block ends. Without it, you will get an error message.</p>
         <p>For example, if you wanted to print out the number 10 5 times, you would run:</p>
         <pre>
-            <code>
-                REPEAT (5)
-                RETURN (10)
-                END
-            </code>
+<code>
+REPEAT (5)
+RETURN (10)
+END
+</code>
         </pre>
 
         <h3 id="ifcode" class="title">IF</h3>
         <p><code>IF</code> statements in Goa also include the <code>ELSE IF</code> and <code>ELSE</code> blocks. They allow you to check if a condition is true. </p>
         <p>The basic format of <code>IF</code> blocks is shown below.</p>
         <pre>
-            <code>
-                IF (statement)
-                # code
-                END 
+<code>
+IF (statement)
+# code
+END 
 
-                ELSE IF (statement) # you can add as many as you want - they are optional
-                # code
-                END # notice how every block has an END statement
+ELSE IF (statement) # you can add as many as you want - they are optional
+# code
+END # notice how every block has an END statement
 
-                ELSE # no statement, they are optional, but only add one
-                # code
-                END
-            </code>
+ELSE # no statement, they are optional, but only add one
+# code
+END
+</code>
         </pre>
 
         <p>Statements are created with comparators. An example of a statement with a comparator is <code>(x > 10)</code>. So if this was true, it would activate that code block and skip all blocks below it. </p>
@@ -408,31 +409,133 @@
         <p><code>WHILE</code> statements repeat a block of code until a condition is satisfied. Make sure that the condition can be satisfied so it doesn't run forever.</p>
         <p>The basic format of <code>WHILE</code> statements is shown below.</p>
         <pre>
-            <code>
-                WHILE (statement)
-                # code
-                END
-            </code>
+<code>
+WHILE (statement)
+# code
+END
+</code>
         </pre>
         <p>The statement is created with comparators. An example of a statement with a comparator is <code>(x < 10)</code>. So in a <code>WHILE</code> block, while x is less than 10, the code will run.</p>
         <p>For example, you can use it to return numbers in increasing order.</p>
         <pre>
-            <code>
-                SET (x 0)
-                WHILE (x < 10)
-                SET (x ADD (x 1))
-                RETURN (x)
-                END
-            </code>
+<code>
+SET (x 0)
+WHILE (x < 10)
+SET (x ADD (x 1))
+RETURN (x)
+END
+</code>
         </pre>
 
         <h1 id="errors" class="title">Errors</h1>
-        <p>in development!</p>
+        <p>Coming to this documentation soon!</p>
 
         <h1 id="examples" class="title">Examples</h1>
-        <p>in development!</p>
+        <p>The following are example scripts: </p>
+        <ul>
+            <li><a href="#sumn">Sum of Numbers 1 to N</a></li>
+            <li><a href="#parity">Number Parity Checker</a></li>
+            <li><a href="#reverse">Reverse Countdown</a></li>
+            <li><a href="#factorials">Factorials</a></li>
+            <li><a href="#fibonacci">Fibonacci Sequence</a></li>
+        </ul>
+
+        <h2 id="sumn" class="title">Sum of Numbers 1 to N</h2>
+        <p>This program takes in a number (N), and finds the sum of all numbers from 1 to N.</p>
+        <pre>
+<code>
+START
+SET (n ADD (INPUT 1)) # we add 1 to n, because as of Goa 0.8 Beta, there is no "<=" comparator
+SET (counter 1)
+SET (sum 0)
+
+WHILE (counter < n) # to see an easier way to do while loops, see the Fibonnaci Sequence program
+SET (sum ADD (sum counter))
+SET (counter ADD (counter 1))
+END
+
+RETURN (sum)
+END
+</code>
+        </pre>
+        <h2 id="parity" class="title">Number Parity Checker</h2>
+        <p>This program takes in a number, and determines if it is even or odd. If it is even, it will output <code>0</code> and if it is odd it will output <code>1</code></p>
+        <pre>
+<code>
+START
+SET (n INPUT)
+SET (r MOD (n 2))
+
+IF (r = 0)
+RETURN (0)
+END
+ELSE
+RETURN (1)
+END
+END
+</code>
+        </pre>
+        <h2 id="reverse" class="title">Reverse Countdown</h2>
+        <p>This program will take a number and count down from that number. </p>
+        <pre>
+<code>
+START
+SET (n INPUT)
+SET (counter n)
+
+WHILE (counter > 0)
+RETURN (counter)
+SET (counter SUB (counter 1))
+END
+
+RETURN (0) # optional if you want to return a 0 at the end of the countdown
+
+END
+</code>
+        </pre>
+        <h2 id="factorials" class="title">Factorials</h2>
+        <p>This program finds the factorial of a number given.</p>
+        <pre>
+<code>
+START
+SET (n ADD (INPUT 1)) # just like in the sum of numbers program above, we add 1 because Goa 0.8 Beta has no "<="
+SET (counter 1)
+SET (result 1)
+
+WHILE (counter < n)
+SET (result MULT (result counter))
+SET (counter ADD (counter 1))
+END
+
+RETURN (result)
+
+END
+</code>
+        </pre>
+        <h2 id="fibonacci" class="title">Fibonacci Sequence</h2>
+        <p>This program prints Fibonacci numbers up to the nth number, where n is taken from the input.</p>
+        <pre>
+<code>
+START
+SET (a 0)
+SET (b 1)
+SET (count INPUT)
+
+WHILE (count > 0) # you can also make while loops simpler by doing this
+RETURN (a)
+SET (temp ADD (a b))
+SET (a b)
+SET (b temp)
+SET (count SUB (count 1))
+END
+
+END
+</code>
+        </pre>
+
+        <button id="backtop">Back to Top</button>
     </div>
 
-    <script src = "script.js"></script>
+    <script src = "doc.js"></script>
 </body>
 </html>

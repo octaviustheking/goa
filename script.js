@@ -71,8 +71,18 @@ file_input.addEventListener('change', () => {
     reader.readAsText(file);
 });
 
+if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light");
+}
+
 theme_switch.addEventListener("click", () => {
     document.body.classList.toggle("light");
+
+    if (document.body.classList.contains("light")) {
+        localStorage.setItem("theme", "light");
+    } else {
+        localStorage.setItem("theme", "dark");
+    }
 });
 
 function runGoa(code, input) {
@@ -122,9 +132,16 @@ function split(text) {
             depth--;
             current += c;
         } else if (c === ' ' && depth === 0) {
-            if (current.trim().length > 0) {
-                args.push(current.trim());
-                current = '';
+            let j = i + 1;
+            while (j < text.length && text[j] === ' ') j++;
+
+            if (j < text.length && text[j] === '(') {
+                current += c;
+            } else {
+                if (current.trim().length > 0) {
+                    args.push(current.trim());
+                    current = '';
+                }
             }
         } else {
             current += c;
