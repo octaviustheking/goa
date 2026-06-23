@@ -12,13 +12,16 @@ Goa is designed to be
 Goa is open-source, and allows for easy changes to code for your needs. 
 
 ## Important features
- - All functions have either 1 or 2 arguments inside parentheses, making it easy to understand and remember what functions do.
+ - All statements have either 1 or 2 arguments inside parentheses, making it easy to understand and remember what statements do.
  - ```IF, ELSE IF, ELSE, WHILE,``` and ```REPEAT``` blocks all have ```END``` markers to make it clear where they end.
  - Goa ignores whitespace and formatting like indentation.
  - Goa is safe and deterministic, as rules are strict to allow for no unpredictability.
  - Complete with browser saving and file downloading and uploading.
 
-## Function examples
+## Statements examples 
+
+For a full description of all statements and what each does, check out the documentation at: <a href="https://goalang.vercel.app/documentation.html">https://goalang.vercel.app/documentation.html</a>
+
 ### Variables
 ```SET (x 10)```
 
@@ -56,7 +59,7 @@ END
 ```# This is a comment!```
 
 ## Example program
-The following program takes multiple numbers and converts them to binary
+The following program takes multiple numbers and converts them to binary. To find more example programs, check out the documentation at: <a href="https://goalang.vercel.app/documentation.html">https://goalang.vercel.app/documentation.html</a>
 
 ```
 START
