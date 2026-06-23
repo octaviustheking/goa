@@ -97,7 +97,13 @@ function runGoa(code, input) {
     const program_lines = lines.slice(start_index + 1, end_index);
 
     const vars = {}
-    const input_queue = input.split(/\s+/).filter(x => x.length).map(x => Number(x));
+    const input_queue = input.split(/\s+/).filter(x => x.length).map(x => {
+        if (!/^-?(?:\d+|\d+\.\d+|\d+\.|\.\d+)$/.test(x)) {
+            throw new Error("Invalid number: " + x);
+        }
+
+        return Number(x);
+    });
     let output = '';
 
     execute(program_lines, vars, input_queue, v => {
@@ -179,6 +185,17 @@ function collect(lines, start_index) {
     throw new Error('Missing END for block');
 }
 
+function formatValue(value) {
+    if (value.type === "float") {
+        if (Number.isInteger(value.value)) {
+            return value.value.toFixed(1);
+        }
+
+        return String(value.value);
+    }
+    return String(value.value);
+}
+
 function execute(lines, vars, input_queue, printFn) {
     for (let i = 0; i < lines.length; i++) {
         if (stopped) break;
@@ -194,7 +211,7 @@ function execute(lines, vars, input_queue, printFn) {
         } else if (line.startsWith('RETURN')) {
             const inside = getInsideParens(line);
             const value = evalExpression(inside, vars, input_queue);
-            printFn(value);
+            printFn(formatValue(value));
         } else if (line.startsWith('IF')) {
             const condition = getInsideParens(line);
             const condition_value = evalCondition(condition, vars, input_queue);
@@ -245,9 +262,13 @@ function execute(lines, vars, input_queue, printFn) {
             const inside = getInsideParens(line);
             const times = evalExpression(inside, vars, input_queue);
 
+            if (times.type !== "INT") {
+                throw new Error("REPEAT requires INT count.")
+            }
+
             const {block: repeatBlock, nextIndex} = collect(lines, i + 1);
 
-            for (let j = 0; j < times; j++) {
+            for (let j = 0; j < times.value; j++) {
                 if (stopped) break;
                 execute(repeatBlock, vars, input_queue, printFn)
             }
@@ -270,10 +291,12 @@ function evalCondition(text, vars, input_queue) {
     const right = evalExpression(parts[2], vars, input_queue);
 
     switch (op) {
-        case '<': return left < right;
-        case '>': return left > right;
-        case '=': return left === right;
-        case '!=': return left !== right;
+        case '<': return left.value < right.value;
+        case '>': return left.value > right.value;
+        case '=': return left.value === right.value;
+        case '!=': return left.value !== right.value;
+        case '<=': return left.value <= right.value;
+        case '>=': return left.value >= right.value;
         default:
             throw new Error('Unknown comparator: ' + op);
     }
@@ -317,7 +340,19 @@ function parseExpressionTokens(tokens) {
     const token = tokens.shift();
 
     if (/^-?\d+$/.test(token)) {
-        return { type: "number", value: Number(token) };
+        return {
+            type: "literal",
+            value_type: "int",
+            value: Number(token)
+        };
+    }
+
+    if (/^-?(?:\d+\.\d+|\d+\.|\.\d+)$/.test(token)) {
+        return {
+            type: "literal",
+            value_type: "int",
+            value: Number(token)
+        };
     }
 
     if (token === "INPUT") {
@@ -335,8 +370,35 @@ function parseExpressionTokens(tokens) {
             throw new Error("Expected '(' after " + func);
         }
 
+        const unary_functions = ["TOINT", "TOFLOAT"];
+
+        if (unary_functions.includes(func)) {
+            const arg = parseExpressionTokens(tokens);
+
+            if (tokens.shift() !== ")") {
+                throw new Error("Expected ')' after " + func);
+            }
+
+            return {
+                type: "func",
+                func,
+                arg
+            };
+        }
+
         const left = parseExpressionTokens(tokens);
         const right = parseExpressionTokens(tokens);
+
+        if (tokens.shift() !== ")") {
+            throw new Error("Expected ')' after arguments of " + func);
+        }
+
+        return {
+            type: "func",
+            func,
+            left,
+            right
+        };
 
         if (tokens.shift() !== ")") {
             throw new Error("Expected ')' after arguments of " + func);
@@ -359,16 +421,48 @@ function evalExpression(expr, vars, input_queue) {
     return evalAST(ast, vars, input_queue);
 }
 
+function promote(a, b) {
+    if (a.type === "float" || b.type === "float") {
+        return "float";
+    }
+
+    return "int";
+}
+
+function makeInt(value) {
+    return {
+        type: "int",
+        value: Math.round(value)
+    };
+}
+
+function makeFloat(value) {
+    return {
+        type: "float",
+        value: value
+    };
+}
+
 function evalAST(node, vars, input_queue) {
     switch (node.type) {
-        case "number":
-            return node.value;
+        case "literal":
+            return {
+                type: node.value_type,
+                value: node.value
+            };
 
         case "input":
             if (input_queue.length === 0) {
                 throw new Error("No more input available.");
             }
-            return input_queue.shift();
+
+            const value = input_queue.shift();
+
+            if (Number.isInteger(value)) {
+                return makeInt(value);
+            }
+
+            return makeFloat(value);
 
         case "var":
             if (!(node.name in vars)) {
@@ -377,19 +471,74 @@ function evalAST(node, vars, input_queue) {
             return vars[node.name];
 
         case "func":
+            if (node.func === "TOINT") {
+                const arg = evalAST(node.arg, vars, input_queue);
+                return makeInt(arg.value);
+            }
+
+            if (node.func === "TOFLOAT") {
+                const arg = evalAST(node.arg, vars, input_queue);
+                return makeFloat(arg.value);
+            }
+
             const left = evalAST(node.left, vars, input_queue);
             const right = evalAST(node.right, vars, input_queue);
 
             switch (node.func) {
-                case "ADD": return left + right;
-                case "SUB": return left - right;
-                case "MULT": return left * right;
-                case "DIV": return Math.round(left / right);
-                case "EXP": return left ** right;
-                case "MOD": return left % right;
-                case "MIN": return Math.min(left, right);
-                case "MAX": return Math.max(left, right);
-                case "BASE": return parseInt(left.toString(right));
+                case "ADD":
+                    return {
+                        type: promote(left, right),
+                        value: left.value + right.value
+                    };
+                case "SUB":
+                    return {
+                        type: promote(left, right),
+                        value: left.value - right.value
+                    };
+                case "MULT":
+                    return {
+                        type: promote(left, right),
+                        value: left.value * right.value
+                    };
+                case "DIV":
+                    return makeInt(left.value / right.value);
+                case "FDIV":
+                    return makeFloat(left.value / right.value);
+                case "EXP":
+                    if (right.value < 0) {
+                        throw new Error("EXP exponent cannot be negative.");
+                    }
+                    return {
+                        type: promote(left, right), 
+                        value: left.value ** right.value
+                    };
+                case "ROOT":
+                    if (right.value <= 0) {
+                        throw new Error("Root power must be greater than 0.");
+                    }
+                    if (left.value < 0 && right.value % 2 === 0) {
+                        throw new Error("Cannot take an even root of a negative number.");
+                    }
+                    const result = left.value ** (1 / right.value);
+                    if (Number.isInteger(result)) {
+                        return makeInt(result);
+                    }
+                    return makeFloat(result);
+                case "MOD":
+                    return makeInt(left.value % right.value);
+                case "MIN":
+                    return left.value < right.value ? left : right;
+                case "MAX":
+                    return left.value > right.value ? left : right;
+                case "BASE":
+                    if (left.type !== "INT") {
+                        throw new Error("BASE requires INT as first argument.");
+                    }
+                    if (right.type !== "INT") {
+                        throw new Error("BASE requires INT as second argument.")
+                    }
+
+                    return makeInt(parseInt(left.value.toString(right.value)));
                 default:
                     throw new Error("Unknown function: " + node.func);
             }

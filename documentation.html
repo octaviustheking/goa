@@ -34,8 +34,8 @@
 
     <div class="content">
         <h1 id="intro" class="title">Introduction</h1>
-        <p>Welcome to <strong>Goa 0.8 Beta</strong>!</p>
-        <p>Goa is a small expression-based programming language, designed to be lightweight and easy for people to understand and learn. It uses a clean, parentheses-driven syntax inspired by languages like Lisp. It deals exclusively with numbers, allowing for people to experiment with logic and automate tasks that deal with integers. </p>
+        <p>Welcome to <strong>Goa 0.9 Beta</strong>!</p>
+        <p>Goa is a small expression-based programming language, designed to be lightweight and easy for people to understand and learn. It uses a clean, parentheses-driven syntax inspired by languages like Lisp. It deals exclusively with numbers, allowing for people to experiment with logic and automate tasks that deal with integers and floats. </p>
         <p>Goa is designed to be</p>
         <ul>
             <li>easily understandable</li>
@@ -51,7 +51,11 @@
             <li>Goa is safe and deterministic, as rules are strict to allow for no unpredictability.</li>
             <li>The IDE is complete with browser saving and file downloading and uploading.</li>
         </ul>
-        <p>Goa 0.8 Beta means that Goa is getting close to a full release! In 0.8, the developer fixes some bugs involving parsing the code. Before the 1.0 full release, he plans to add more comparators and statements. </p>
+        <p>Goa 0.9 Beta means that Goa is getting close to a full release!</p>
+        <p>Up to the 0.8 Beta, the developer added all the basic statements that gave Goa its structure.</p>
+        <p>In 0.8 Beta, the developer fixes some bugs involving parsing the code.</p>
+        <p>In 0.9 Beta, the developer added support for floats, added the <code><=</code> and <code>>=</code> comparators, the <code>FDIV</code>, <code>TOINT</code>, <code>TOFLOAT</code>, and <code>ROOT</code> statements, and made changes to the <code>EXP</code>, <code>BASE</code>, and <code>DIV</code> statements.</p>
+        <p>Before the 1.0 full release, he plans to add more comparators and statements. </p>
         
         <h1 id="start" class="title">Getting Started with the IDE</h1>
         <p>So, you want to use Goa. What's first?</p>
@@ -90,7 +94,7 @@ RETURN (4)
 
         <h2 id="inputdocs" class="title">The Input</h2>
         <p>Located in the top of the right half of the screen, this is where you place your input!</p>
-        <p>Goa only deals with integers, so all inputs should be numbers. Numbers should be separated by spaces, but other than that, it doesn't matter. Goa will take</p>
+        <p>Goa only deals with integers and floats, so all inputs should be numbers. Numbers should be separated by spaces, but other than that, it doesn't matter.</p>
         <pre>
 <code>
 1 4
@@ -127,6 +131,7 @@ RETURN (4)
             <li><a href="#programstructure">Program Structure</a></li>
             <li><a href="#statesyn">Statement Syntax</a></li>
             <li><a href="#comsyn">Comment Syntax</a></li>
+            <li><a href="#floatsyn">Float Syntax</a></li>
         </ul>
 
         <h2 id="programstructure" class="title">Program Structure</h2>
@@ -172,8 +177,11 @@ END
         <code>RETURN (ADD (INPUT 2)) # this allows you to print out the sum of the input and 2.</code> 
         <p>All on the same line.</p>
 
+        <h2 id="floatsyn" class="title">Float Syntax</h2>
+        <p>As of Goa 0.9 Beta, Goa can now handle flaots. That means Goa can handle numbers like 0.8 and 1.55. When writing floats, anything with a decimal will be counted as float. That includes numbers like .6, 6.5, 6., and 6.0. However, anything with more than one decimal point will be rejected, like 5.5.3. </p>
+
         <h1 id="statements" class="title">Statements</h1>
-        <p>In Goa, only integers are used. That means that there is no support for strings or floats.</p>
+        <p>In Goa, only integers and floats are used. That means that there is no support for strings.</p>
         <p>Here is a list of all statements in Goa.</p>
         <ul>
             <li><a href="#startendcode">START and END</a></li>
@@ -184,8 +192,10 @@ END
                 <li><a href="#subcode">SUB</a></li>
                 <li><a href="#multcode">MULT</a></li>
                 <li><a href="#divcode">DIV</a></li>
+                <li><a href="#fdivcode">FDIV</a></li>
                 <li><a href="#expcode">EXP</a></li>
-                <li><a href="#basecod">BASE</a></li>
+                <li><a href="#rootcode">ROOT</a></li>
+                <li><a href="#basecode">BASE</a></li>
                 <li><a href="#abscode">ABS</a></li>
                 <li><a href="#modcode">MOD</a></li>
                 <li><a href="#randcode">RAND</a></li>
@@ -219,6 +229,7 @@ END
 
         <h2 id="mathcode" class="title">Math Statements</h2>
         <p>Math functions on their own do not do anything. They just run, but will not return anything or be assigned to a variable. Use the correct statements for that (<a href="#setcode">SET</a> and <a href="#returncode">RETURN</a>).</p>
+        <p>In Goa, there is safe promotion. That means adding two integers will produce an integer, but any calculation involving a float will always return a float. </p>
         <p>All math functions round to the nearest whole number.</p>
 
         <h3 id="addcode" class="title">ADD</h3>
@@ -256,21 +267,33 @@ END
         <code>MULT (2 MULT (5 7))</code>
 
         <h3 id="divcode" class="title">DIV</h3>
-        <p>To divide two numbers, use the following statement</p>
+        <p>To divide two numbers and get an integer answer, use the following statement</p>
         <code>DIV (argument argument)</code>
-        <p>Where the first argument is divided by the second.</p>
+        <p>Where the first argument is divided by the second. The answer will be rounded.</p>
         <p>The <code>DIV</code> statement ONLY supports 2 values. Otherwise, you will get an error. To divide multiple numbers, run</p>
         <code>DIV (argument DIV (argument argument))</code>
-        <p>to subtract 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>to divide 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
         <p>For example, to do 8 divided by 4, run</p>
         <code>DIV (8 4)</code>
         <p>To do 8 divided by 2 divided by 4, run</p>
         <code>DIV (DIV (8 2) 4)</code>
 
+        <h3 id="fdivcode" class="title">FDIV</h3>
+        <p>To divide two numbers, use the following statement</p>
+        <code>FDIV (argument argument)</code>
+        <p>Where the first argument is divided by the second.</p>
+        <p>The <code>FDIV</code> statement ONLY supports 2 values. Otherwise, you will get an error. To divide multiple numbers, run</p>
+        <code>FDIV (argument FDIV (argument argument))</code>
+        <p>to divide 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to do 8 divided by 5, run</p>
+        <code>FDIV (8 5)</code>
+        <p>To do 8 divided by 5 divided by 2, run</p>
+        <code>FDIV (FDIV (8 5) 2)</code>
+
         <h3 id="expcode" class="title">EXP</h3>
         <p>To do exponentials, use the following statement</p>
         <code>EXP (argument argument)</code>
-        <p>Where the first argument is raised to the power of the second argument..</p>
+        <p>Where the first argument is raised to the power of the second argument.</p>
         <p>The <code>EXP</code> statement ONLY supports 2 values. Otherwise, you will get an error. To exponent a number multiple times, run</p>
         <code>EXP (EXP (argument argument) argument)</code>
         <p>to exponent a number 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
@@ -278,6 +301,20 @@ END
         <code>EXP (5 2)</code>
         <p>To do 5 squared cubed, run</p>
         <code>EXP (EXP (5 2) 3)</code>
+        <p>As of 0.9 Beta, Goa does not support negative exponents. To do roots, use the <code>ROOT</code> statement below.</p>
+
+        <h3 id="rootcode" class="title">ROOT</h3>
+        <p>To do roots, use the following statement</p>
+        <code>ROOT (argument argument)</code>
+        <p>Where the second argument is n and the nth root is taken of the first argument.</p>
+        <p>The <code>ROOT</code> statement ONLY supports 2 values. Otherwise, you will get an error. To root a number multiple times, run</p>
+        <code>ROOT (ROOT (argument argument) argument)</code>
+        <p>to root a number 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
+        <p>For example, to do the square root of 5, run</p>
+        <code>ROOT (5 2)</code>
+        <p>To do the third root of the square root of 5, run</p>
+        <code>ROOT (ROOT (5 2) 3)</code>
+        <p>The <code>ROOT</code> statement requires the second argument to be over 0 and for the second argument to not be even if the first argument is odd.</p>
 
         <h3 id="basecode" class="title">BASE</h3>
         <p>To convert numbers between bases, use the following statement</p>
@@ -290,6 +327,7 @@ END
         <code>BASE (5 2)</code>
         <p>To conver 5 in binary to base 3, run</p>
         <code>BASE (BASE (5 2) 3)</code>
+        <p>As of 0.9 Beta, Goa only takes integers for both arguments.</p>
 
         <h3 id="abscode" class="title">ABS</h3>
         <p>To find the absolute value of a number, use the following statement</p>
@@ -335,6 +373,22 @@ END
         <p>For example, to find the larger of 2 and 14, run</p>
         <code>MAX (2 14)</code>
 
+        <h3 id="tointcode" class="title">TOINT</h3>
+        <p>To convert a number to an integer, use the following statement</p>
+        <code>TOINT (argument)</code>
+        <p>Where the argument will be rounded to the nearest number.</p>
+        <p>The <code>TOINT</code> only needs 1 argument. If more are given, they will be ignored.</p>
+        <p>For example, to convert the float 1.7 to an integer, run</p>
+        <code>TOINT (1.7)</code>
+
+        <h3 id="tofloatcode" class="title">TOFLOAT</h3>
+        <p>To convert a number to an float, use the following statement</p>
+        <code>TOFLOAT (argument)</code>
+        <p>Where the argument will be converted into a float.</p>
+        <p>The <code>TOFLOAT</code> only needs 1 argument. If more are given, they will be ignored.</p>
+        <p>For example, to convert the integer 3 to an float, run</p>
+        <code>TOFLOAT (3)</code>
+
         <h2 id="inputcode" class="title">INPUT</h2>
         <p>To take the next number in input, use the following statement</p>
         <code>INPUT</code>
@@ -361,6 +415,8 @@ END
             <li><code>></code> - Use this comparator for "greater than"</li>
             <li><code>=</code> - Use this comparator for "equal to"</li>
             <li><code>!=</code> - Use this comparator for "not equal to"</li>
+            <li><code><=</code> - Use this comparator for "less than or equal to"</li>
+            <li><code>>=</code> - Use this comparator for "greater than or equal to"</li>
         </ul>
         <p>Use these in the logic statements below.</p>
 
@@ -431,7 +487,7 @@ END
         <p>Coming to this documentation soon!</p>
 
         <h1 id="examples" class="title">Examples</h1>
-        <p>The following are example scripts: </p>
+        <p>The following example scripts are now outdated as of 0.9 Beta and will be replaced soon. </p>
         <ul>
             <li><a href="#sumn">Sum of Numbers 1 to N</a></li>
             <li><a href="#parity">Number Parity Checker</a></li>
