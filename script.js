@@ -262,7 +262,7 @@ function execute(lines, vars, input_queue, printFn) {
             const inside = getInsideParens(line);
             const times = evalExpression(inside, vars, input_queue);
 
-            if (times.type !== "INT") {
+            if (times.type !== "int") {
                 throw new Error("REPEAT requires INT count.")
             }
 
@@ -350,7 +350,7 @@ function parseExpressionTokens(tokens) {
     if (/^-?(?:\d+\.\d+|\d+\.|\.\d+)$/.test(token)) {
         return {
             type: "literal",
-            value_type: "int",
+            value_type: "float",
             value: Number(token)
         };
     }
@@ -399,12 +399,6 @@ function parseExpressionTokens(tokens) {
             left,
             right
         };
-
-        if (tokens.shift() !== ")") {
-            throw new Error("Expected ')' after arguments of " + func);
-        }
-
-        return { type: "func", func, left, right };
     }
 
     throw new Error("Unexpected token: " + token);
@@ -531,10 +525,10 @@ function evalAST(node, vars, input_queue) {
                 case "MAX":
                     return left.value > right.value ? left : right;
                 case "BASE":
-                    if (left.type !== "INT") {
+                    if (left.type !== "int") {
                         throw new Error("BASE requires INT as first argument.");
                     }
-                    if (right.type !== "INT") {
+                    if (right.type !== "int") {
                         throw new Error("BASE requires INT as second argument.")
                     }
 
