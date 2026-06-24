@@ -174,12 +174,19 @@ function collect(lines, start_index) {
 
         if (line === 'END') {
             if (depth === 0) {
-                return { block, nextIndex: i };
+                return {block, nextIndex: i};
             }
-            depth--;
-        } else {
+
+            depth --;
             block.push(line);
+            continue;
         }
+
+        if (depth === 0 && (line === 'ELSE' || line.startsWith('ELSE IF'))) {
+            return {block, nextIndex: i - 1};
+        }
+
+        block.push(line);
     }
 
     throw new Error('Missing END for block');
@@ -217,6 +224,7 @@ function execute(lines, vars, input_queue, printFn) {
             const condition_value = evalCondition(condition, vars, input_queue);
 
             const {block: ifBlock, nextIndex} = collect(lines, i + 1);
+
             i = nextIndex;
 
             let handled = false;
@@ -228,23 +236,29 @@ function execute(lines, vars, input_queue, printFn) {
 
             while (i + 1 < lines.length && lines[i + 1].startsWith('ELSE IF')) {
                 const else_if_line = lines[i + 1];
+
                 const cond = getInsideParens(else_if_line);
+
                 const val = evalCondition(cond, vars, input_queue);
 
-                const {block: elseIfBlock, nextIndex: skipTo} = collect(lines, i + 2);
+                const {block: elseIfBlock, nextIndex: endPos} = collect(lines, i + 2);
 
                 if (!handled && val) {
                     execute(elseIfBlock, vars, input_queue, printFn);
                     handled = true;
                 }
 
-                i = skipTo;
+                i = endPos;
             }
 
-            if (!handled && i + 1 < lines.length && lines[i + 1] === 'ELSE') {
-                const {block: elseBlock, nextIndex} = collect(lines, i + 2);
-                execute(elseBlock, vars, input_queue, printFn);
-                i = nextIndex;
+            if (i + 1 < lines.length && lines[i + 1] === 'ELSE') {
+                const {block: elseBlock, nextIndex: elseEnd} = collect(lines, i + 2);
+
+                if (!handled) {
+                    execute(elseBlock, vars, input_queue, printFn);
+                }
+
+                i = elseEnd;
             }
 
         } else if (line.startsWith('WHILE')) {
@@ -285,10 +299,17 @@ function execute(lines, vars, input_queue, printFn) {
 }
 
 function evalCondition(text, vars, input_queue) {
-    const parts = text.split(/\s+/);
-    const left = evalExpression(parts[0], vars, input_queue);
-    const op = parts[1];
-    const right = evalExpression(parts[2], vars, input_queue);
+    const match = text.match(/(.+?)\s*(<=|>=|!=|=|<|>)\s*(.+)/);
+
+    if (!match) {
+        throw new Error("Invalid condition: " + text);
+    }
+
+    const left = evalExpression(match[1].trim(), vars, input_queue);
+
+    const op = match[2];
+
+    const right = evalExpression(match[3].trim(), vars, input_queue);
 
     switch (op) {
         case '<': return left.value < right.value;
@@ -297,8 +318,6 @@ function evalCondition(text, vars, input_queue) {
         case '!=': return left.value !== right.value;
         case '<=': return left.value <= right.value;
         case '>=': return left.value >= right.value;
-        default:
-            throw new Error('Unknown comparator: ' + op);
     }
 }
 
@@ -356,11 +375,34 @@ function parseExpressionTokens(tokens) {
     }
 
     if (token === "INPUT") {
-        return { type: "input" };
+        return {type: "input"};
+    }
+
+    if (token === "RANDSIGN") {
+        return {type: "randsign"};
+    }
+
+    if (token === "PI") {
+        return {
+            type: "literal",
+            value_type: "float",
+            value: Math.PI
+        };
+    }
+
+    if (token === "E") {
+        return {
+            type: "literal",
+            value_type: "float",
+            value: Math.E
+        };
     }
 
     if (/^[a-zA-Z][a-zA-Z0-9]*$/.test(token) && tokens[0] !== "(") {
-        return { type: "var", name: token };
+        return {
+            type: "var", 
+            name: token
+        };
     }
 
     if (/^[A-Z]+$/.test(token)) {
@@ -370,7 +412,8 @@ function parseExpressionTokens(tokens) {
             throw new Error("Expected '(' after " + func);
         }
 
-        const unary_functions = ["TOINT", "TOFLOAT"];
+        const unary_functions = ["ABS", "TOINT", "TOFLOAT", "FACT", "SIN", "COS", "TAN", "ARCSIN", "ARCCOS", "ARCTAN", "FLOOR", "CEIL"];
+
 
         if (unary_functions.includes(func)) {
             const arg = parseExpressionTokens(tokens);
@@ -458,6 +501,11 @@ function evalAST(node, vars, input_queue) {
 
             return makeFloat(value);
 
+        case "randsign":
+            return makeInt(
+            Math.random() < 0.5 ? 1 : -1
+        );
+
         case "var":
             if (!(node.name in vars)) {
                 throw new Error("Undefined variable: " + node.name);
@@ -473,6 +521,99 @@ function evalAST(node, vars, input_queue) {
             if (node.func === "TOFLOAT") {
                 const arg = evalAST(node.arg, vars, input_queue);
                 return makeFloat(arg.value);
+            }
+
+            if (node.func === "ABS") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                return {
+                    type: arg.type,
+                    value: Math.abs(arg.value)
+                };
+            }
+
+            if (node.func === "FACT") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                if (arg.type !== "int") {
+                    throw new Error("FACT requires INT argument.");
+                }
+
+                if (arg.value < 0) {
+                    throw new Error("FACT requires nonnegative argument.");
+                }
+
+                let result = 1;
+
+                for (let i = 2; i <= arg.value; i++) {
+                    result *= i;
+                }
+
+                return makeInt(result);
+            }
+
+            if (node.func === "FLOOR") {
+                const arg = evalAST(node.arg, vars, input_queue);
+                
+                return makeInt(Math.floor(arg.value));
+            }
+
+            if (node.func === "CEIL") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                return makeInt(Math.ceil(arg.value));
+            }
+
+            function radian(degrees) {
+                return degrees * Math.PI / 180;
+            }
+
+            function degree(radians) {
+                return radians * 180 / Math.PI;
+            }
+
+            if (node.func === "SIN") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                return makeFloat(Math.sin(radian(arg.value)));
+            }
+
+            if (node.func === "COS") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                return makeFloat(Math.cos(radian(arg.value)));
+            }
+
+            if (node.func === "TAN") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                return makeFloat(Math.tan(radian(arg.value)));
+            }
+
+            if (node.func === "ARCSIN") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                if (arg.value < -1 || arg.value > 1) {
+                    throw new Error("ARCSIN requires an argument between -1 and 1.");
+                }
+
+                return makeFloat(degree(Math.asin(arg.value)));
+            }
+
+            if (node.func === "ARCCOS") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                if (arg.value < -1 || arg.value > 1) {
+                    throw new Error("ARCCOS requires an argument between -1 and 1.");
+                }
+
+                return makeFloat(degree(Math.acos(arg.value)));
+            }
+
+            if (node.func === "ARCTAN") {
+                const arg = evalAST(node.arg, vars, input_queue);
+
+                return makeFloat(degree(Math.atan(arg.value)));
             }
 
             const left = evalAST(node.left, vars, input_queue);
@@ -508,7 +649,7 @@ function evalAST(node, vars, input_queue) {
                     };
                 case "ROOT":
                     if (right.value <= 0) {
-                        throw new Error("Root power must be greater than 0.");
+                        throw new Error("ROOT power must be greater than 0.");
                     }
                     if (left.value < 0 && right.value % 2 === 0) {
                         throw new Error("Cannot take an even root of a negative number.");
@@ -531,8 +672,118 @@ function evalAST(node, vars, input_queue) {
                     if (right.type !== "int") {
                         throw new Error("BASE requires INT as second argument.")
                     }
-
-                    return makeInt(parseInt(left.value.toString(right.value)));
+                    if (right.value < 2 || right.value > 10) {
+                        throw new Error(
+                            "BASE supports bases 2 through 10 only."
+                        );
+                    }
+                    return makeInt(Number(left.value.toString(right.value)));
+                // case "ABS":
+                //     return {
+                //         type: left.type,
+                //         value: Math.abs(left.value)
+                //     };
+                case "RAND":
+                    if (left.type !== "int") {
+                        throw new Error("RAND requires INT as first argument.");
+                    }
+                    if (right.type !== "int") {
+                        throw new Error("RAND requires INT as second argument.");
+                    }
+                    if (left.value > right.value) {
+                        throw new Error("RAND requires the first value to be smaller than the second value.");
+                    }
+                    return {
+                        type: "int",
+                        value: Math.floor(Math.random() * (right.value - left.value + 1)) + left.value
+                    };
+                case "RANDFLOAT":
+                    if (left.value > right.value) {
+                        throw new Error("RANDFLOAT requires the first value to be smaller than the second value.");
+                    }
+                    return {
+                        type: "float",
+                        value: Math.random() * (right.value - left.value) + left.value
+                    };
+                // case "RANDSIGN":
+                //     return {
+                //         type: "int",
+                //         value: Math.random() < 0.5 ? 1 : -1
+                //     };
+                case "LOG":
+                    if (left.value <= 0) {
+                        throw new Error("LOG requires an argument larger than 0.");
+                    }
+                    if (right.value <= 0) {
+                        throw new Error("LOG requires a base larger than 0.");
+                    }
+                    if (right.value === 1) {
+                        throw new Error("LOG base cannot be 1.")
+                    }
+                    return {
+                        type: "float",
+                        value: Math.log(left.value) / Math.log(right.value)
+                    };
+                case "RANGE":
+                    return {
+                        type: promote(left, right),
+                        value: Math.abs(left.value - right.value)
+                    };
+                case "GCD":
+                    if (left.type !== "int") {
+                        throw new Error("GCD requires INT as first argument.");
+                    }
+                    if (right.type !== "int") {
+                        throw new Error("GCD requires INT as second argument.");
+                    }
+                    let a = Math.abs(left.value);
+                    let b = Math.abs(right.value);
+                    while (b!== 0) {
+                        const temporary = b;
+                        b = a % b;
+                        a = temporary;
+                    }
+                    return makeInt(a);
+                case "LCM":
+                    if (left.type !== "int") {
+                        throw new Error("LCM requires INT as first argument.");
+                    }
+                    if (right.type !== "int") {
+                        throw new Error("LCM requires INT as second argument.")
+                    }
+                    let c = Math.abs(left.value);
+                    let d = Math.abs(right.value);
+                    const gcd = (c, d) => d === 0 ? c : gcd(d, c % d);
+                    const lcm = (c, d) => Math.abs(c * d) / gcd(c, d);
+                    return makeInt(lcm(c, d));
+                // case "FACT":
+                //     if (left.type !== "int") {
+                //         throw new Error("FACT requires an INT argument.");
+                //     }
+                //     if (left.value < 0) {
+                //         throw new Error("FACT requires a nonnegative argument.");
+                //     }
+                //     function factorial(n) {
+                //         if (n === 0 || n === 1) return 1;
+                //         return n * factorial(n - 1);
+                //     }
+                //     return {
+                //         type: "int",
+                //         value: factorial(left.value)
+                //     };
+                case "ROUND":
+                    if (right.type !== "int") {
+                        throw new Error("ROUND requires INT as second argument.");
+                    }
+                    if (right.value < 0) {
+                        throw new Error("ROUND second argument cannot be negative.");
+                    }
+                    const factor = 10 ** right.value;
+                    const rounded = Math.round(left.value * factor) / factor;
+                    if (right.value === 0) {
+                        return makeInt(rounded);
+                    }
+                    return makeFloat(rounded);
                 default:
                     throw new Error("Unknown function: " + node.func);
             }

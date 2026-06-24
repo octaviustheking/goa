@@ -34,9 +34,9 @@
 
     <div class="content">
         <h1 id="intro" class="title">Introduction</h1>
-        <p>Welcome to <strong>Goa 0.9 Beta</strong>!</p>
-        <p>Goa is a small expression-based programming language, designed to be lightweight and easy for people to understand and learn. It uses a clean, parentheses-driven syntax inspired by languages like Lisp. It deals exclusively with numbers, allowing for people to experiment with logic and automate tasks that deal with integers and floats. </p>
-        <p>Goa is designed to be</p>
+        <p>Welcome to <strong>Goa 1.0</strong>!</p>
+        <p>Goa is a small expression-based programming language, designed to be lightweight and easy for people to understand and learn. It uses a clean, parentheses-driven syntax inspired by languages like Lisp. It deals exclusively with numbers, allowing people to experiment with logic and automate tasks that deal with integers and floats. In Goa, functions/expressions are called <strong>statements</strong>.</p>
+        <p>Goa is designed to be:</p>
         <ul>
             <li>easily understandable</li>
             <li>expandable</li>
@@ -45,17 +45,17 @@
         <p>Goa is open source, allowing for users to change the code to suit their needs.</p>
         <p>Some important features of Goa...</p>
         <ul>
-            <li>All functions have either 1 or 2 arguments inside parentheses, making it easy to understand and remember what functions do.</li>
+            <li>All statements have either 0, 1, or 2 arguments, making it easy to understand and remember what statements do.</li>
             <li><code>IF, ELSE IF, ELSE, WHILE,</code> and <code>REPEAT</code> blocks all have <code>END</code> statements to make it easy to see where they end.</li>
             <li>Goa ignores whitespace and formatting like indentation.</li>
-            <li>Goa is safe and deterministic, as rules are strict to allow for no unpredictability.</li>
+            <li>Goa is safe and predictable (at least I hope).</li>
             <li>The IDE is complete with browser saving and file downloading and uploading.</li>
         </ul>
-        <p>Goa 0.9 Beta means that Goa is getting close to a full release!</p>
+        <p>Goa is in 1.0, meaning it is on its first full release!</p>
         <p>Up to the 0.8 Beta, the developer added all the basic statements that gave Goa its structure.</p>
-        <p>In 0.8 Beta, the developer fixes some bugs involving parsing the code.</p>
+        <p>In 0.8 Beta, the developer fixed some bugs involving parsing the code.</p>
         <p>In 0.9 Beta, the developer added support for floats, added the <code><=</code> and <code>>=</code> comparators, the <code>FDIV</code>, <code>TOINT</code>, <code>TOFLOAT</code>, and <code>ROOT</code> statements, and made changes to the <code>EXP</code>, <code>BASE</code>, and <code>DIV</code> statements.</p>
-        <p>Before the 1.0 full release, he plans to add more comparators and statements. </p>
+        <p>In the 1.0 full release, the developer added logarithms, trig statements, rounding statements, more random statements, <code>GCD</code> and <code>LCM</code> statements, and factorial statements.</p>
         
         <h1 id="start" class="title">Getting Started with the IDE</h1>
         <p>So, you want to use Goa. What's first?</p>
@@ -73,7 +73,7 @@
         <h2 id="navdocs" class="title">The Navbar</h2>
         <p>The Navbar contains 5 buttons.</p>
         <p>The first one, Documentation, opens up this website. This is for you to refer to in case you ever forget anything about Goa.</p>
-        <p>Next is the Save in browser button. It saves whatever code you currently have in the code area to localstorage, allowing it to load up whenever you open the web IDE></p>
+        <p>Next is the Save in browser button. It saves whatever code you currently have in the code area to localstorage, allowing it to load up whenever you open the web IDE.</p>
         <p>Thirdly is the Save to file button. It saves whatever code you currently have in the code area to a <code>.goa</code> file on your computer.</p>
         <p>Fourth is the Upload file button. It allows you to upload code from a <code>.goa</code> file on your computer.</p>
         <p>Finally, there is the Change theme button. It allows you to change the theme of the web IDE between light and dark mode.</p>
@@ -82,14 +82,14 @@
 
         <h2 id="codedocs" class="title">The Code</h2>
         <p>Located on the left half of the screen, this is where you place your code!</p>
-        <p>Every program must have a <code>START</code> and an <code>END</code> statements. Without them, your program will not compile. For example, if you have the following program:</p>
+        <p>Every program must have a <code>START</code> statement and an <code>END</code> statement. Without them, your program will not compile. For example, if you have the following program:</p>
         <pre>
 <code>
 START 
 RETURN (4)
 </code>
         </pre>
-        <p>You will recieve the following error message: <code>ERROR: Program must have one START and one END.</code></p>
+        <p>You will receive the following error message: <code>ERROR: Program must have one START and one END.</code></p>
         <p>Make sure to save your code often! The Goa Web IDE currently does not support auto-saving.</p>
 
         <h2 id="inputdocs" class="title">The Input</h2>
@@ -121,7 +121,7 @@ RETURN (4)
         <p>You can take input by running the <code>INPUT</code> statement. The <code>INPUT</code> statement must be used with another statement, like the <code>SET</code> statement to assign it to a variable, or the <code>RETURN</code> statement to print it out, just to name a few. Each <code>INPUT</code> will take the next number in your input. Goa will not return an error if there are more inputs than you pull for in your code, but it will return <code>ERROR: No more input available.</code> if the number of inputs available are less than the number that you pull for.</p>
         <p>You can learn more by going to <a href="#inputcode"><code>INPUT</code></a> section!</p>
         
-        <h2 id="inputdocs" class="title">The Output</h2>
+        <h2 id="outputdocs" class="title">The Output</h2>
         <p>Located in the bottom of the right half of the screen, this is where the program returns output and errors!</p>
         <p>In order to make the program print something out in the output, you must use the <code>RETURN</code> statement. You can learn more by going to the <a href="#returncode"><code>RETURN</code></a> section!</p>
     
@@ -132,11 +132,12 @@ RETURN (4)
             <li><a href="#statesyn">Statement Syntax</a></li>
             <li><a href="#comsyn">Comment Syntax</a></li>
             <li><a href="#floatsyn">Float Syntax</a></li>
+            <li><a href="#varsyn">Variable Syntax</a></li>
         </ul>
 
         <h2 id="programstructure" class="title">Program Structure</h2>
         <p>Every program in Goa must have a START and END statement.</p> 
-        <p>If you do not, you will recieve the following error message: <code>ERROR: Program must have one START and one END.</code></p>
+        <p>If you do not, you will receive the following error message: <code>ERROR: Program must have one START and one END.</code></p>
 
         <h2 id="statesyn" class="title">Statement Syntax</h2>
         <p>All statements in Goa follow this syntax: </p>
@@ -156,7 +157,7 @@ RETURN (3
 END
 </code>
         </pre>
-        <p>The user has failed to add an extra parenthese needed, causing an error message to return.</p>
+        <p>The user has failed to add the closing parenthesis, causing an error message to return.</p>
         <code>ERROR: Missing parentheses in: RETURN (3</code>
         <p>Adding too many parentheses will also return an error message</p>
         <pre>
@@ -173,12 +174,15 @@ END
         <p>will return 2 + (2 x 3), which is 8.</p>
 
         <h2 id="comsyn" class="title">Comment Syntax</h2>
-        <p>To make a comment in your code, simply use a <code>#</code> symbol. For exmaple, typing <code># hello world</code> will cause the compiler to skip over it. Inline comments are also allowed, allowing you to type things like: </p>
+        <p>To make a comment in your code, simply use a <code>#</code> symbol. For example, typing <code># hello world</code> will cause the compiler to skip over it. Inline comments are also allowed, allowing you to type things like: </p>
         <code>RETURN (ADD (INPUT 2)) # this allows you to print out the sum of the input and 2.</code> 
         <p>All on the same line.</p>
 
         <h2 id="floatsyn" class="title">Float Syntax</h2>
-        <p>As of Goa 0.9 Beta, Goa can now handle flaots. That means Goa can handle numbers like 0.8 and 1.55. When writing floats, anything with a decimal will be counted as float. That includes numbers like .6, 6.5, 6., and 6.0. However, anything with more than one decimal point will be rejected, like 5.5.3. </p>
+        <p>As of Goa 0.9 Beta, Goa can now handle floats. That means Goa can handle numbers like 0.8 and 1.55. When writing floats, anything with a decimal will be counted as float. That includes numbers like .6, 6.5, 6., and 6.0. However, anything with more than one decimal point will be rejected, like 5.5.3. </p>
+
+        <h2 id="varsyn" class="title">Variable Syntax</h2>
+        <p>In Goa, variables should be alphanumeric. Goa variables do not support characters like underscores or addition signs. </p>
 
         <h1 id="statements" class="title">Statements</h1>
         <p>In Goa, only integers and floats are used. That means that there is no support for strings.</p>
@@ -199,8 +203,28 @@ END
                 <li><a href="#abscode">ABS</a></li>
                 <li><a href="#modcode">MOD</a></li>
                 <li><a href="#randcode">RAND</a></li>
+                <li><a href="#randfloatcode">RANDFLOAT</a></li>
+                <li><a href="#randsigncode">RANDSIGN</a></li>
                 <li><a href="#mincode">MIN</a></li>
                 <li><a href="#maxcode">MAX</a></li>
+                <li><a href="#rangecode">RANGE</a></li>
+                <li><a href="#tointcode">TOINT</a></li>
+                <li><a href="#tofloatcode">TOFLOAT</a></li>
+                <li><a href="#logcode">LOG</a></li>
+                <li><a href="#roundcode">ROUND</a></li>
+                <li><a href="#floorcode">FLOOR</a></li>
+                <li><a href="#ceilcode">CEIL</a></li>
+                <li><a href="#gcdcode">GCD</a></li>
+                <li><a href="#lcmcode">LCM</a></li>
+                <li><a href="#sincode">SIN</a></li>
+                <li><a href="#coscode">COS</a></li>
+                <li><a href="#tancode">TAN</a></li>
+                <li><a href="#arcsincode">ARCSIN</a></li>
+                <li><a href="#arccoscode">ARCCOS</a></li>
+                <li><a href="#arctancode">ARCTAN</a></li>
+                <li><a href="#factcode">FACT</a></li>
+                <li><a href="#picode">PI</a></li>
+                <li><a href="#ecode">E</a></li>
             </ul>
             <li><a href="#inputcode">INPUT</a></li>
             <li><a href="#returncode">RETURN</a></li>
@@ -216,9 +240,8 @@ END
         <h2 id="startendcode" class="title">START and END</h2>
         <p>To mark the start of a program, use the <code>START</code> statement.</p>
         <p>To mark the end of a program, use the <code>END</code> statement.</p>
-        <p>Every program needs these two statements. Otherwise, you will recieve the following error: <code>ERROR: Program must have one START and one END.</code></p>
+        <p>Every program needs these two statements. Otherwise, you will receive the following error: <code>ERROR: Program must have one START and one END.</code></p>
         <p>If there is no <code>START</code> or <code>END</code>, there will be an error.</p>
-        <p>If there are multiple <code>START</code> and <code>END</code> (excpet for Logic Statements) statements, there will be an error. </p>
 
         <h2 id="setcode" class="title">SET</h2>
         <p>To set a variable to a value, use the following statement</p>
@@ -228,9 +251,8 @@ END
         <code>SET (x 10)</code>
 
         <h2 id="mathcode" class="title">Math Statements</h2>
-        <p>Math functions on their own do not do anything. They just run, but will not return anything or be assigned to a variable. Use the correct statements for that (<a href="#setcode">SET</a> and <a href="#returncode">RETURN</a>).</p>
+        <p>Math statements on their own do not do anything. They just run, but will not return anything or be assigned to a variable. Use the correct statements for that (<a href="#setcode">SET</a> and <a href="#returncode">RETURN</a>).</p>
         <p>In Goa, there is safe promotion. That means adding two integers will produce an integer, but any calculation involving a float will always return a float. </p>
-        <p>All math functions round to the nearest whole number.</p>
 
         <h3 id="addcode" class="title">ADD</h3>
         <p>To add two numbers, use the following statement</p>
@@ -269,7 +291,7 @@ END
         <h3 id="divcode" class="title">DIV</h3>
         <p>To divide two numbers and get an integer answer, use the following statement</p>
         <code>DIV (argument argument)</code>
-        <p>Where the first argument is divided by the second. The answer will be rounded.</p>
+        <p>Where the first argument is divided by the second. The answer will be rounded to the nearest whole number. To do division with floats, use the <code>FDIV</code> statement below.</p>
         <p>The <code>DIV</code> statement ONLY supports 2 values. Otherwise, you will get an error. To divide multiple numbers, run</p>
         <code>DIV (argument DIV (argument argument))</code>
         <p>to divide 3 numbers. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
@@ -314,33 +336,29 @@ END
         <code>ROOT (5 2)</code>
         <p>To do the third root of the square root of 5, run</p>
         <code>ROOT (ROOT (5 2) 3)</code>
-        <p>The <code>ROOT</code> statement requires the second argument to be over 0 and for the second argument to not be even if the first argument is odd.</p>
+        <p>The <code>ROOT</code> statement requires the second argument to be greater than 0 and for the second argument to be odd if the first argument is negative.</p>
 
         <h3 id="basecode" class="title">BASE</h3>
         <p>To convert numbers between bases, use the following statement</p>
         <code>BASE (argument argument)</code>
         <p>Where the first argument is converted to the base of the second.</p>
-        <p>The <code>BASE</code> statement ONLY supports 2 values. Otherwise, you will get an error. To convert a number's base multiple times, run</p>
-        <code>BASE (BASE (argument argument) argument)</code>
-        <p>to change a number's base 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need. </p>
-        <p>For example, to conver 5 to base 2, run</p>
+        <p>The <code>BASE</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to convert 5 to base 2, run</p>
         <code>BASE (5 2)</code>
-        <p>To conver 5 in binary to base 3, run</p>
-        <code>BASE (BASE (5 2) 3)</code>
         <p>As of 0.9 Beta, Goa only takes integers for both arguments.</p>
 
         <h3 id="abscode" class="title">ABS</h3>
         <p>To find the absolute value of a number, use the following statement</p>
         <code>ABS (argument)</code>
         <p>Where the absolute value of the argument is given.</p>
-        <p>The <code>ABS</code> only needs 1 argument. If more are given, they will be ignored. </p>
+        <p>The <code>ABS</code> only needs 1 argument. Putting extra arguments will return an error. </p>
         <p>For example, to find |-16|, run</p>
         <code>ABS (-16)</code>
 
         <h3 id="modcode" class="title">MOD</h3>
         <p>To do modular division, use the following statement</p>
-        <code>MOD (4 2)</code>
-        <p>Where the remainder of the 4 divided by 2 is given.</p>
+        <code>MOD (argument argument)</code>
+        <p>Where the remainder of the first argument divided by the second is returned.</p>
         <p>The <code>MOD</code> statement ONLY supports 2 values. Otherwise, you will get an error. To modularly divide multiple numbers, run</p>
         <code>MOD (MOD (argument argument) argument)</code>
         <p>to modularly divide a number 2 times. Nested statements are allowed, so you can repeat this for as many numbers as you need.</p>
@@ -350,12 +368,26 @@ END
         <code>MOD (MOD (15 6) 2)</code>
 
         <h3 id="randcode" class="title">RAND</h3>
-        <p>To find a random number (inclusive), run the following statement</p>
+        <p>To find a random integer (inclusive), run the following statement</p>
         <code>RAND (argument argument)</code>
-        <p>Where a random number is generated inclusive between the minimum value (the first argument) and the maximum (the second argument).</p>
-        <p>The <code>SUB</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
-        <p>For example, to generate a random number between 1 and 10 (inclusive), run</p>
+        <p>Where a random integer is generated inclusive between the minimum value (the first argument) and the maximum (the second argument).</p>
+        <p>The <code>RAND</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to generate a random integer between 1 and 10 (inclusive), run</p>
         <code>RAND (1 10)</code>
+
+        <h3 id="randfloatcode" class="title">RANDFLOAT</h3>
+        <p>To find a random float (inclusive), run the following statement</p>
+        <code>RANDFLOAT (argument argument)</code>
+        <p>Where a random float is generated inclusive between the minimum value (the first argument) and the maximum (the second argument).</p>
+        <p>The <code>RANDFLOAT</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to generate a random float between 1 and 10 (inclusive), run</p>
+        <code>RANDFLOAT (1 10)</code>
+
+        <h3 id="randsigncode" class="title">RANDSIGN</h3>
+        <p>To generate a random sign (positive or negative), run the following statement</p>
+        <code>RANDSIGN</code>
+        <p>Where either -1 or 1 is returned.</p>
+        <p>The <code>RANDSIGN</code> statement requires 0 arguments and therefore no parentheses.</p>
 
         <h3 id="mincode" class="title">MIN</h3>
         <p>To find the smaller of 2 numbers, use the following statement</p>
@@ -373,21 +405,143 @@ END
         <p>For example, to find the larger of 2 and 14, run</p>
         <code>MAX (2 14)</code>
 
+        <h3 id="rangecode" class="title">RANGE</h3>
+        <p>To find the range between two numbers, run the following statement</p>
+        <code>RANGE (argument argument)</code>
+        <p>Where the range is determined from the two numbers.</p>
+        <p>The <code>RANGE</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to find the range of 5 and 124, run</p>
+        <code>RANGE (5 124)</code>
+
         <h3 id="tointcode" class="title">TOINT</h3>
         <p>To convert a number to an integer, use the following statement</p>
         <code>TOINT (argument)</code>
         <p>Where the argument will be rounded to the nearest number.</p>
-        <p>The <code>TOINT</code> only needs 1 argument. If more are given, they will be ignored.</p>
+        <p>The <code>TOINT</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
         <p>For example, to convert the float 1.7 to an integer, run</p>
         <code>TOINT (1.7)</code>
 
         <h3 id="tofloatcode" class="title">TOFLOAT</h3>
-        <p>To convert a number to an float, use the following statement</p>
+        <p>To convert a number to a float, use the following statement</p>
         <code>TOFLOAT (argument)</code>
         <p>Where the argument will be converted into a float.</p>
-        <p>The <code>TOFLOAT</code> only needs 1 argument. If more are given, they will be ignored.</p>
-        <p>For example, to convert the integer 3 to an float, run</p>
+        <p>The <code>TOFLOAT</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to convert the integer 3 to a float, run</p>
         <code>TOFLOAT (3)</code>
+
+        <h3 id="logcode" class="title">LOG</h3>
+        <p>To do logarithms, run the following statement</p>
+        <code>LOG (argument argument)</code>
+        <p>Where the first argument is the value and the second argument is the base.</p>
+        <p>The <code>LOG</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to find LOG 10 100, run</p>
+        <code>LOG (100 10)</code>
+
+        <h3 id="roundcode" class="title">ROUND</h3>
+        <p>To round a number, run the following statement</p>
+        <code>ROUND (argument argument)</code>
+        <p>Where the first argument is rounded to second argument places.</p>
+        <p>The <code>ROUND</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to round 5.1249 to 2 places, run</p>
+        <code>ROUND (5.1249 2)</code>
+
+        <h3 id="floorcode" class="title">FLOOR</h3>
+        <p>To round a number down, run the following statement</p>
+        <code>FLOOR (argument)</code>
+        <p>Where the argument is rounded down to the nearest whole number.</p>
+        <p>The <code>FLOOR</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to round 5.1249 down, run</p>
+        <code>FLOOR (5.1249)</code>
+
+        <h3 id="ceilcode" class="title">CEIL</h3>
+        <p>To round a number up, run the following statement</p>
+        <code>CEIL (argument)</code>
+        <p>Where the argument is rounded up to the nearest whole number.</p>
+        <p>The <code>CEIL</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to round 5.1249 up, run</p>
+        <code>CEIL (5.1249)</code>
+
+        <h3 id="gcdcode" class="title">GCD</h3>
+        <p>To find the greatest common divisor of two numbers, run the following statement</p>
+        <code>GCD (argument argument)</code>
+        <p>Where the greatest common divisor of the two arguments is returned.</p>
+        <p>The <code>GCD</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to find the greatest common divisor of 4 and 18, run</p>
+        <code>GCD (4 18)</code>
+
+        <h3 id="lcmcode" class="title">LCM</h3>
+        <p>To find the least common multiple of two numbers, run the following statement</p>
+        <code>LCM (argument argument)</code>
+        <p>Where the least common multiple of the two arguments is returned.</p>
+        <p>The <code>LCM</code> statement ONLY supports 2 values. Otherwise, you will get an error.</p>
+        <p>For example, to find the least common multiple of 4 and 18, run</p>
+        <code>LCM (4 18)</code>
+
+        <h3 id="sincode" class="title">SIN</h3>
+        <p>To find the sine of a number, run the following statement</p>
+        <code>SIN (argument)</code>
+        <p>Where the sine of the argument is given. Arguments must be given in degrees.</p>
+        <p>The <code>SIN</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find the sine of 90, run</p>
+        <code>SIN (90)</code>
+
+        <h3 id="coscode" class="title">COS</h3>
+        <p>To find the cosine of a number, run the following statement</p>
+        <code>COS (argument)</code>
+        <p>Where the cosine of the argument is given. Arguments must be given in degrees.</p>
+        <p>The <code>COS</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find the cosine of 90, run</p>
+        <code>COS (90)</code>
+
+        <h3 id="tancode" class="title">TAN</h3>
+        <p>To find the tangent of a number, run the following statement</p>
+        <code>TAN (argument)</code>
+        <p>Where the tangent of the argument is given. Arguments must be given in degrees.</p>
+        <p>The <code>TAN</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find the tangent of 45, run</p>
+        <code>TAN (45)</code>
+
+        <h3 id="arcsincode" class="title">ARCSIN</h3>
+        <p>To find the arcsine of a number, run the following statement</p>
+        <code>ARCSIN (argument)</code>
+        <p>Where the arcsine of the argument is given. It will return in degrees.</p>
+        <p>The <code>ARCSIN</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find the arcsine of 1, run</p>
+        <code>ARCSIN (1)</code>
+
+        <h3 id="arccoscode" class="title">ARCCOS</h3>
+        <p>To find the arccosine of a number, run the following statement</p>
+        <code>ARCCOS (argument)</code>
+        <p>Where the arccosine of the argument is given. It will return in degrees.</p>
+        <p>The <code>ARCCOS</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find the arccosine of 0, run</p>
+        <code>ARCCOS (0)</code>
+
+        <h3 id="arctancode" class="title">ARCTAN</h3>
+        <p>To find the arctangent of a number, run the following statement</p>
+        <code>ARCTAN (argument)</code>
+        <p>Where the arctangent of the argument is given. It will return in degrees.</p>
+        <p>The <code>ARCTAN</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find the arctangent of 1, run</p>
+        <code>ARCTAN (1)</code>
+
+        <h3 id="factcode" class="title">FACT</h3>
+        <p>To find the factorial of a number, run the following statement</p>
+        <code>FACT (argument)</code>
+        <p>Where the factorial of argument is returned.</p>
+        <p>The <code>FACT</code> statement only needs 1 argument. Putting extra arguments will return an error.</p>
+        <p>For example, to find 5!, run</p>
+        <code>FACT (5)</code>
+
+        <h3 id="picode" class="title">PI</h3>
+        <p>To use pi in your programs, use the following statement</p>
+        <code>PI</code>
+        <p>The <code>PI</code> statement does not require any arguments.</p>
+
+        <h3 id="ecode" class="title">E</h3>
+        <p>To use e in your programs, use following statement</p>
+        <code>E</code>
+        <p>The <code>E</code> statement does not require any arguments.</p>
 
         <h2 id="inputcode" class="title">INPUT</h2>
         <p>To take the next number in input, use the following statement</p>
@@ -401,7 +555,7 @@ END
         <p>To print something out in the output area, use the following statement</p>
         <code>RETURN (argument)</code>
         <p>Where the argument is printed out in the output area.</p>
-        <p>The <code>RETURN</code> statement only supports 1 value. It will ignore any extra values.</p>
+        <p>The <code>RETURN</code> statement ONLY supports 1 value. Putting extra arguments will return an error.</p>
         <p>For example, to print out the number 15, run</p>
         <code>RETURN (15)</code>
 
@@ -409,14 +563,14 @@ END
         <p>All logic statements in Goa use an <code>END</code> statement to mark where they end.</p>
 
         <h3 id="compcode" class="title">Comparators</h3>
-        <p>There are 4 comparators in Goa.</p>
+        <p>There are 6 comparators in Goa.</p>
         <ul>
-            <li><code><</code> - Use this comparator for "less than"</li>
-            <li><code>></code> - Use this comparator for "greater than"</li>
+            <li><code>&lt;</code> - Use this comparator for "less than"</li>
+            <li><code>&gt;</code> - Use this comparator for "greater than"</li>
+            <li><code>&lt;=</code> - Use this comparator for "less than or equal to"</li>
+            <li><code>&gt;=</code> - Use this comparator for "greater than or equal to"</li>
             <li><code>=</code> - Use this comparator for "equal to"</li>
             <li><code>!=</code> - Use this comparator for "not equal to"</li>
-            <li><code><=</code> - Use this comparator for "less than or equal to"</li>
-            <li><code>>=</code> - Use this comparator for "greater than or equal to"</li>
         </ul>
         <p>Use these in the logic statements below.</p>
 
@@ -462,7 +616,7 @@ END
         <p><code>ELSE IF</code> and <code>ELSE</code> blocks are optional. You can add as many <code>ELSE IF</code> blocks as you want but only 1 <code>ELSE</code> block. Notice how each block has an <code>END</code> tag.</p>
 
         <h3 id="whilecode" class="title">WHILE</h3>
-        <p><code>WHILE</code> statements repeat a block of code until a condition is satisfied. Make sure that the condition can be satisfied so it doesn't run forever.</p>
+        <p><code>WHILE</code> statements repeat a block of code until a condition is satisfied. Make sure that the condition can be satisfied so it doesn't run forever. Goa does not automatically stop loops that run forever.</p>
         <p>The basic format of <code>WHILE</code> statements is shown below.</p>
         <pre>
 <code>
@@ -471,7 +625,7 @@ WHILE (statement)
 END
 </code>
         </pre>
-        <p>The statement is created with comparators. An example of a statement with a comparator is <code>(x < 10)</code>. So in a <code>WHILE</code> block, while x is less than 10, the code will run.</p>
+        <p>The condition is created with comparators. The format of a condition is <code>value comparator value</code>An example of a condition with a comparator is <code>x < 10</code>. So in a <code>WHILE</code> block, while x is less than 10, the code will run.</p>
         <p>For example, you can use it to return numbers in increasing order.</p>
         <pre>
 <code>
@@ -484,15 +638,177 @@ END
         </pre>
 
         <h1 id="errors" class="title">Errors</h1>
-        <p>Coming to this documentation soon!</p>
+        <p>Below is a list of each error message, and what causes them. </p>
+        <ul>
+            <li>ERROR: Program must have one START and one END.</li>
+            <ul>
+                <li>Occurs when a <code>START</code> or <code>END</code> statement is missing</li>
+                <li>Occurs when an <code>END</code> statement occurs before a <code>START</code> statement</li>
+            </ul>
+
+            <li>ERROR: Invalid number: &lt;value&gt;</li>
+            <ul>
+                <li>Occurs when the value in the input area is not a number</li>
+            </ul>
+
+            <li>ERROR: Missing parentheses in: &lt;line&gt;</li>
+            <ul>
+                <li>Occurs when there are not parentheses in a statement that should have one</li>
+            </ul>
+
+            <li>ERROR: Missing END for block</li>
+            <ul>
+                <li>Occurs when there is not a closing <code>END</code> sattement for a logic statement</li>
+            </ul>
+
+            <li>ERROR: Invalid condition: &lt;text&gt;</li>
+            <ul>
+                <li>Occurs when the condition in a logic statement is not valid</li>
+            </ul>
+
+            <li>ERROR: Empty expression</li>
+            <ul>
+                <li>Occurs when there is nothing inside a statement that requires arguments</li>
+            </ul>
+
+            <li>ERROR: Unexpected token: &lt;token&gt;</li>
+            <ul>
+                <li>Occurs when there is a character that the parser cannot understand</li>
+            </ul>
+
+            <li>ERROR: Expected '(' after &lt;function&gt;</li>
+            <ul>
+                <li>Occurs when there is a missing parenthesis in front of statement arguments</li>
+            </ul>
+
+            <li>ERROR: Expected ')' after &lt;function&gt;</li>
+            <ul>
+                <li>Occurs when there is a missing parenthesis after a statement argument</li>
+            </ul>
+
+            <li>ERROR: Expected ')' after arguments of &lt;function&gt;</li>
+            <ul>
+                <li>Occurs when there is a missing parenthesis after statement arguments</li>
+            </ul>
+
+            <li>ERROR: Unexpected extra tokens</li>
+            <ul>
+                <li>Occurs when there are more arguments than needed in a statement</li>
+            </ul>
+
+            <li>ERROR: No more input available.</li>
+            <ul>
+                <li>Occurs when there is an <code>INPUT</code> statement but there is not enough input in the input area</li>
+            </ul>
+
+            <li>ERROR: Undefined variable: &lt;variable&gt;</li>
+            <ul>
+                <li>Occurs when there is a variable being called that has not been set yet</li>
+            </ul>
+
+            <li>ERROR: REPEAT requires INT count.</li>
+            <ul>
+                <li>Occurs when there is a non-integer as the <code>REPEAT</code> argument</li>
+            </ul>
+
+            <li>ERROR: FACT requires INT argument.</li>
+            <ul>
+                <li>Occurs when there is a non-integer as the <code>FACT</code> argument</li>
+            </ul>
+
+            <li>ERROR: FACT requires nonnegative argument.</li>
+            <ul>
+                <li>Occurs when there is a negative argument as the <code>FACT</code> argument</li>
+            </ul>
+
+            <li>ERROR: ARCSIN requires an argument between -1 and 1.</li>
+            <ul>
+                <li>Occurs when there is an argument less than -1 or over 1 as the <code>ARCSIN</code> argument</li>
+            </ul>
+
+            <li>ERROR: ARCCOS requires an argument between -1 and 1.</li>
+            <ul>
+                <li>Occurs when there is an argument less than -1 or over 1 as the <code>ARCCOS</code> argument</li>
+            </ul>
+
+            <li>ERROR: EXP exponent cannot be negative.</li>
+            <ul>
+                <li>Occurs when there a negative power is given to the <code>EXP</code> statement</li>
+                <li>To do negative exponents, use the <code>ROOT</code> statement</li>
+            </ul>
+
+            <li>ERROR: ROOT power must be greater than 0.</li>
+            <ul>
+                <li>Occurs when there is a nonpositive power given to the <code>ROOT</code> statement</li>
+            </ul>
+
+            <li>ERROR: Cannot take an even root of a negative number.</li>
+            <ul>
+                <li>Occurs when there is an even root given to the <code>ROOT</code> statement when it has a negative number</li>
+            </ul>
+
+            <li>ERROR: BASE requires INT as first argument. / ERROR: BASE requires INT as second argument.</li>
+            <ul>
+                <li>The <code>BASE</code> statement only takes integer arguments</li>
+            </ul>
+
+            <li>ERROR: BASE supports bases 2 through 10 only.</li>
+            <ul>
+                <li>Occurs when a base less than 2 or over 10 is given to the <code>BASE</code> statement</li>
+            </ul>
+
+            <li>ERROR: RAND requires INT as first argument. / ERROR: RAND requires INT as second argument.</li>
+            <ul>
+                <li>The <code>RAND</code> statement only takes integer arguments</li>
+            </ul>
+
+            <li>ERROR: RAND requires the first value to be smaller than the second value.</li>
+            <ul>
+                <li>Occurs when the first argument given to a <code>RAND</code> statement is greater than the second</li>
+            </ul>
+
+            <li>ERROR: RANDFLOAT requires the first value to be smaller than the second value.</li>
+            <ul>
+                <li>Occurs when the first argument given to a <code>RANDFLOAT</code> statement is greater than the second</li>
+            </ul>
+
+            <li>ERROR: LOG requires an argument larger than 0. / ERROR: LOG requires a base larger than 0.</li>
+            <ul>
+                <li>The <code>LOG</code> statement requires both arguments to be over 0</li>
+            </ul>
+
+            <li>ERROR: LOG base cannot be 1.</li>
+            <ul>
+                <li>The <code>LOG</code> statement cannot have a base of 1</li>
+            </ul>
+
+            <li>ERROR: GCD requires INT as first argument. / ERROR: GCD requires INT as second argument.</li>
+            <ul>
+                <li>The <code>GCD</code> statement requires both arguments to be over integers</li>
+            </ul>
+
+            <li>ERROR: LCM requires INT as first argument. / ERROR: LCM requires INT as second argument.</li>
+            <ul>
+                <li>The <code>LCM</code> statement requires both arguments to be over integers</li>
+            </ul>
+
+            <li>ERROR: ROUND requires INT as second argument. / ERROR: ROUND second argument cannot be negative.</li>
+            <ul>
+                <li>The <code>ROUND</code> statement the second argument to be a nonnegative integer</li>
+            </ul>
+
+            <li>ERROR: Unknown function: &lt;name&gt;</li>
+            <ul>
+                <li>Occurs when the program has a function that the compiler cannot understand</li>
+            </ul>
+        </ul>
 
         <h1 id="examples" class="title">Examples</h1>
-        <p>The following example scripts are now outdated as of 0.9 Beta and will be replaced soon. </p>
         <ul>
             <li><a href="#sumn">Sum of Numbers 1 to N</a></li>
             <li><a href="#parity">Number Parity Checker</a></li>
-            <li><a href="#reverse">Reverse Countdown</a></li>
-            <li><a href="#factorials">Factorials</a></li>
+            <li><a href="#prime">Prime Checker</a></li>
+            <li><a href="#temp">Temperature Converter</a></li>
             <li><a href="#fibonacci">Fibonacci Sequence</a></li>
         </ul>
 
@@ -501,11 +817,11 @@ END
         <pre>
 <code>
 START
-SET (n ADD (INPUT 1)) # we add 1 to n, because as of Goa 0.8 Beta, there is no "<=" comparator
+SET (n INPUT) 
 SET (counter 1)
 SET (sum 0)
 
-WHILE (counter < n) # to see an easier way to do while loops, see the Fibonnaci Sequence program
+WHILE (counter <= n) 
 SET (sum ADD (sum counter))
 SET (counter ADD (counter 1))
 END
@@ -531,40 +847,57 @@ END
 END
 </code>
         </pre>
-        <h2 id="reverse" class="title">Reverse Countdown</h2>
-        <p>This program will take a number and count down from that number. </p>
+        <h2 id="prime" class="title">Prime Checker</h2>
+        <p>This program takes in a number, and outputs 1 if it is prime.</p>
         <pre>
 <code>
 START
 SET (n INPUT)
-SET (counter n)
+SET (isPrime 1)
 
-WHILE (counter > 0)
-RETURN (counter)
-SET (counter SUB (counter 1))
+IF (n < 2)
+RETURN (0)
 END
 
-RETURN (0) # optional if you want to return a 0 at the end of the countdown
+ELSE
+SET (i 2)
+
+WHILE (EXP (i 2) <= n)
+
+IF (MOD (n i) = 0)
+SET (isPrime 0)
+END
+
+SET (i ADD (i 1))
+END
+
+RETURN (isPrime)
+END
 
 END
 </code>
         </pre>
-        <h2 id="factorials" class="title">Factorials</h2>
-        <p>This program finds the factorial of a number given.</p>
+        <h2 id="temp" class="title">Temperature Converter</h2>
+        <p>This program converts between Fahrenheit and Celsius. Input 0 as the first number to convert from Fahrenheit to Celsius, and input 1 as the second to convert from Celsius to Fahrenheit.</p>
         <pre>
 <code>
 START
-SET (n ADD (INPUT 1)) # just like in the sum of numbers program above, we add 1 because Goa 0.8 Beta has no "<="
-SET (counter 1)
-SET (result 1)
+SET (conv INPUT)
+SET (temp INPUT)
+SET (fraction FDIV (5 9))
+SET (cfraction FDIV (9 5))
 
-WHILE (counter < n)
-SET (result MULT (result counter))
-SET (counter ADD (counter 1))
+IF (conv = 0)
+SET (temp SUB (temp 32))
+SET (temp MULT (temp fraction))
 END
 
-RETURN (result)
+ELSE IF (conv = 1)
+SET (temp MULT (temp cfraction))
+SET (temp ADD (temp 32))
+END
 
+RETURN (temp)
 END
 </code>
         </pre>
@@ -577,7 +910,7 @@ SET (a 0)
 SET (b 1)
 SET (count INPUT)
 
-WHILE (count > 0) # you can also make while loops simpler by doing this
+WHILE (count > 0) 
 RETURN (a)
 SET (temp ADD (a b))
 SET (a b)
