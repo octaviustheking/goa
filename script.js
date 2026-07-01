@@ -7,7 +7,7 @@ const save_browser = document.querySelector('#navbar nav a:nth-child(2)');
 const save_file = document.querySelector('#navbar nav a:nth-child(3)');
 const load_file = document.querySelector('#navbar nav a:nth-child(4)');
 const file_input = document.getElementById('file_input');
-const theme_switch = document.querySelector('#navbar nav a:nth-child(5)')
+const theme_switch = document.querySelector('#navbar nav a:nth-child(5)');
 
 let stopped = false;
 
@@ -91,7 +91,7 @@ function runGoa(code, input) {
     const end_index = lines.lastIndexOf('END');
 
     if (start_index === -1 || end_index === - 1 || start_index >= end_index) {
-        throw new Error('Program must have one START and one END.')
+        throw new Error('Program must have one START and one END.');
     }
 
     const program_lines = lines.slice(start_index + 1, end_index);
@@ -797,4 +797,6 @@ window.addEventListener('load', () => {
         code_area.value = saved;
     }
 });
+
+// when will i reach 1k lines??
 
